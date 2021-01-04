@@ -361,75 +361,80 @@ class application_window:
             def only_cells_with_red_text(cell):
                 if cell!=cell:
                     return hyperparam['empty']
+
+                if '(' in str(cell.value):
                 
-                if cell.style.bg_color in {utils.colors.red, 'FFFF0000'}:
-                    return 150
-            
+                    if cell.style.bg_color in {utils.colors.red, 'FFFF0000'}:
+                        return 150
+                
 
-                if cell.style.font_color in {utils.colors.green, 'FF00B050'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['green']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
+                    if cell.style.font_color in {utils.colors.green, 'FF00B050'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['green']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
 
 
-                elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['yellow']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
+                    elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['yellow']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
+                        
+
+                    elif cell.style.font_color in {utils.colors.purple, '800080'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['purple']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
+
                     
+                    elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
 
-                elif cell.style.font_color in {utils.colors.purple, '800080'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['purple']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
-
-                
-                elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['red']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['red']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
 
 
-                elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['blue']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
-                
-                
-                elif cell.style.font_color in {utils.colors.black, '00000000'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['black']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
+                    elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['blue']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
+                    
+                    
+                    elif cell.style.font_color in {utils.colors.black, '00000000'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['black']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
+                    else:
+                        return 100
 
                 else:
                     return 100
@@ -439,76 +444,79 @@ class application_window:
             def only_cells_with_red_text_emp(cell):
                 if cell!=cell:
                     return 0
-                
-                if cell.style.bg_color in {utils.colors.red, 'FFFF0000'}:
-                    return 150
+                if '(' in str(cell.value):
+
+                    if cell.style.bg_color in {utils.colors.red, 'FFFF0000'}:
+                        return 150
 
 
-                if cell.style.font_color in {utils.colors.green, 'FF00B050'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['green']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
+                    if cell.style.font_color in {utils.colors.green, 'FF00B050'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['green']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
 
 
-                elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['yellow']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
+                    elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['yellow']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
+                        
+
+                    elif cell.style.font_color in {utils.colors.purple, '800080'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['purple']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
+
                     
-
-                elif cell.style.font_color in {utils.colors.purple, '800080'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['purple']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
-
-                
-                elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['red']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
+                    elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['red']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
 
 
-                elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['blue']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
-                
-                
-                elif cell.style.font_color in {utils.colors.black, '00000000'}:
-                    check = cell.value
-                    check = check[:-1]
-                    cert = check.split('(')
-                    cer = cert[1].spit(',')
-                    if cer[0] == 'C':
-                        return hyperparam['black']
-                    elif cer[0] == 'V':
-                        return int(cer[1])
+                    elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['blue']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
+                    
+                    
+                    elif cell.style.font_color in {utils.colors.black, '00000000'}:
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['black']
+                        elif cer[0] == 'V':
+                            return int(cer[1])
 
+                    else:
+                        return 100
                 else:
                     return 100
             
