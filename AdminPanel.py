@@ -792,12 +792,18 @@ class application_window:
 
                                 if inx!=38:
 
-                                    prob = int(rows[code_idx])/int(total)
-                                    consumption_dict['Insurance settlement history'] = "Consumed"
-                                    
-                                    
-                        
-                                    tat_val[inx] = tat_val[inx] * prob 
+                                    if '#' not in rows[code_idx]:
+                                        
+
+                                        prob = int(rows[code_idx])/int(total)
+                                        consumption_dict['Insurance settlement history'] = "Consumed"
+                                        tat_val[inx] = tat_val[inx] * prob
+                                    else:
+                                        tat_val[inx] = -100000
+                                        
+                                        
+                            
+                                         
                                 else:
                                     continue
             
@@ -990,15 +996,20 @@ class application_window:
                     accuracy_1 = accuracy_1+1
             
             df = pd.DataFrame(consumption_metrics, columns =['Column Reference Code','Logic Consumption Dictonary'])
+            file = open("AI External-Outputs/path_info.txt","r")
+            for lines in file.read().splitlines():
+                if lines[0] == "T":
+                    test_filepath = lines[1:]
+            file.close() 
+            t_filename = os.path.splitext(test_filepath)[0]
 
-
-            df.to_csv("AI External-Outputs/Consumption_metric.csv")
+            df.to_csv("AI External-Outputs/Consumption_metric_{}.csv".format(t_filename))
             
             df = pd.DataFrame(prediction_metrics, columns =['Column Reference Code','Intial Score','Intial Prediction','Settlement Logic','Settlement Prediction','Ethnicity Logic','Ethnicity Prediction'])  
-
-            df.to_csv("AI External-Outputs/Prediction_metric.csv")
+            
+            df.to_csv("AI External-Outputs/Prediction_metric_{}.csv".format(t_filename))
             df = pd.DataFrame(prediction_output, columns =['Column Reference Code','Actual Code','Age','Ethnicity','Predcition Codes','Relative Confidence Percentage','Standard Confidence Percentage'])  
-            df.to_csv("AI External-Outputs/Prediction_output.csv")
+            df.to_csv("AI External-Outputs/Prediction_output_{}.csv".format(t_filename))
             #print("Accurate is ",accuracy)
             self.cnt = cnt
          
