@@ -8,12 +8,11 @@ import numpy as np
 from numpy.lib.polynomial import polyfit
 from pandas.core import frame
 from styleframe import StyleFrame, utils
-import math
+
 import pandas as pd
 import numpy as np
 import csv
-import matplotlib
-import time
+
 from tkmagicgrid import *
 from tkinter import ttk
 import threading
@@ -305,30 +304,58 @@ class application_window:
 
 
                 elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
-                    .cerbn check = cell.value
+                    check = cell.value
                     check = check[:-1]
                     cert = check.split('(')
                     cer = cert[1].spit(',')
                     if cer[0] == 'C':
-                        return hyperparam['green']
+                        return hyperparam['yellow']
                     elif cer[0] == 'V':
                         return int(cer[1])
-                    return hyperparam['yellow']
+                    
 
                 elif cell.style.font_color in {utils.colors.purple, '800080'}:
-                    return hyperparam['purple']
+                    check = cell.value
+                    check = check[:-1]
+                    cert = check.split('(')
+                    cer = cert[1].spit(',')
+                    if cer[0] == 'C':
+                        return hyperparam['purple']
+                    elif cer[0] == 'V':
+                        return int(cer[1])
 
                 
                 elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
-                    return hyperparam['red']
+                    check = cell.value
+                    check = check[:-1]
+                    cert = check.split('(')
+                    cer = cert[1].spit(',')
+                    if cer[0] == 'C':
+                        return hyperparam['red']
+                    elif cer[0] == 'V':
+                        return int(cer[1])
 
 
                 elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
-                    return hyperparam['blue']
+                    check = cell.value
+                    check = check[:-1]
+                    cert = check.split('(')
+                    cer = cert[1].spit(',')
+                    if cer[0] == 'C':
+                        return hyperparam['blue']
+                    elif cer[0] == 'V':
+                        return int(cer[1])
                 
                 
                 elif cell.style.font_color in {utils.colors.black, '00000000'}:
-                    return hyperparam['black']
+                    check = cell.value
+                    check = check[:-1]
+                    cert = check.split('(')
+                    cer = cert[1].spit(',')
+                    if cer[0] == 'C':
+                        return hyperparam['black']
+                    elif cer[0] == 'V':
+                        return int(cer[1])
 
                 else:
                     return 100
@@ -341,29 +368,72 @@ class application_window:
                 
                 if cell.style.bg_color in {utils.colors.red, 'FFFF0000'}:
                     return 150
-            
+
+
                 if cell.style.font_color in {utils.colors.green, 'FF00B050'}:
-                    return hyperparam['green']
+                    check = cell.value
+                    check = check[:-1]
+                    cert = check.split('(')
+                    cer = cert[1].spit(',')
+                    if cer[0] == 'C':
+                        return hyperparam['green']
+                    elif cer[0] == 'V':
+                        return int(cer[1])
 
 
                 elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
-                    return hyperparam['yellow']
+                    check = cell.value
+                    check = check[:-1]
+                    cert = check.split('(')
+                    cer = cert[1].spit(',')
+                    if cer[0] == 'C':
+                        return hyperparam['yellow']
+                    elif cer[0] == 'V':
+                        return int(cer[1])
+                    
 
                 elif cell.style.font_color in {utils.colors.purple, '800080'}:
-                    return hyperparam['purple']
+                    check = cell.value
+                    check = check[:-1]
+                    cert = check.split('(')
+                    cer = cert[1].spit(',')
+                    if cer[0] == 'C':
+                        return hyperparam['purple']
+                    elif cer[0] == 'V':
+                        return int(cer[1])
 
                 
                 elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
-                    return hyperparam['red']
+                    check = cell.value
+                    check = check[:-1]
+                    cert = check.split('(')
+                    cer = cert[1].spit(',')
+                    if cer[0] == 'C':
+                        return hyperparam['red']
+                    elif cer[0] == 'V':
+                        return int(cer[1])
 
 
                 elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
-                    return hyperparam['blue']
+                    check = cell.value
+                    check = check[:-1]
+                    cert = check.split('(')
+                    cer = cert[1].spit(',')
+                    if cer[0] == 'C':
+                        return hyperparam['blue']
+                    elif cer[0] == 'V':
+                        return int(cer[1])
                 
                 
                 elif cell.style.font_color in {utils.colors.black, '00000000'}:
-                    return hyperparam['black']
-
+                    check = cell.value
+                    check = check[:-1]
+                    cert = check.split('(')
+                    cer = cert[1].spit(',')
+                    if cer[0] == 'C':
+                        return hyperparam['black']
+                    elif cer[0] == 'V':
+                        return int(cer[1])
 
                 else:
                     return 100
@@ -902,7 +972,7 @@ class application_window:
             cnt = 0
             
   
-# Progress bar widget 
+            # Progress bar widget 
             prediction_metrics = []
             consumption_metrics = []
            
@@ -919,7 +989,8 @@ class application_window:
 
                     accuracy_1 = accuracy_1+1
             
-            df = pd.DataFrame(consumption_metrics, columns =['Column Reference Code','Logic Consumption Dictonary'])  
+            df = pd.DataFrame(consumption_metrics, columns =['Column Reference Code','Logic Consumption Dictonary'])
+
 
             df.to_csv("AI External-Outputs/Consumption_metric.csv")
             
