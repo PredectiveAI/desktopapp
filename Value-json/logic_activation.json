@@ -1,0 +1,7 @@
+{
+  "age_logic": "inactive",
+  "settlement_logic": "active",
+  "ethnicity_logic" : "active",
+  "qualifying_criteria" : "active",
+  "finetuning_logic" : "active"
+ }
