@@ -1,2 +1,2 @@
-MW:/withSettlement_logicV2.4/Input Sheets/master_sheet.xlsx 
-TW:/withSettlement_logicV2.4/Input Sheets/atypical-test-sheet.xlsx 
+MW:/withSettlement_logicV3.0-pal/Input Sheets/master_sheet.xlsx 
+TW:/withSettlement_logicV3.0-pal/Input Sheets/atypical-test-sheet.xlsx 

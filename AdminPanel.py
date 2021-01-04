@@ -17,6 +17,7 @@ from tkmagicgrid import *
 from tkinter import ttk
 import threading
 import json
+from pathlib import Path
 try:
     sys.stdout.write("\n")
     sys.stdout.flush()
@@ -283,6 +284,79 @@ class application_window:
 
             f = open('Value-json/hyperparam.json') 
             hyperparam = json.load(f)
+
+            """
+
+            def only_cells_with_red_text(cell):
+                if cell!=cell:
+                    return hyperparam['empty']
+                
+                if cell.style.bg_color in {utils.colors.red, 'FFFF0000'}:
+                    return 150
+            
+
+                if cell.style.font_color in {utils.colors.green, 'FF00B050'}:
+                    return hyperparam['green']
+
+
+                elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
+                    return hyperparam['yellow']
+
+                elif cell.style.font_color in {utils.colors.purple, '800080'}:
+                    return hyperparam['purple']
+
+                
+                elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
+                    return hyperparam['red']
+
+
+                elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
+                    return hyperparam['blue']
+                
+                
+                elif cell.style.font_color in {utils.colors.black, '00000000'}:
+                    return hyperparam['black']
+
+                else:
+                    return 100
+
+            
+            
+            def only_cells_with_red_text_emp(cell):
+                if cell!=cell:
+                    return 0
+                
+                if cell.style.bg_color in {utils.colors.red, 'FFFF0000'}:
+                    return 150
+            
+                if cell.style.font_color in {utils.colors.green, 'FF00B050'}:
+                    return hyperparam['green']
+
+
+                elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
+                    return hyperparam['yellow']
+
+                elif cell.style.font_color in {utils.colors.purple, '800080'}:
+                    return hyperparam['purple']
+
+                
+                elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
+                    return hyperparam['red']
+
+
+                elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
+                    return hyperparam['blue']
+                
+                
+                elif cell.style.font_color in {utils.colors.black, '00000000'}:
+                    return hyperparam['black']
+
+
+                else:
+                    return 100
+
+
+            """
   
             def only_cells_with_red_text(cell):
                 if cell!=cell:
@@ -437,6 +511,7 @@ class application_window:
 
                 else:
                     return 100
+            
             
             sf_2 = StyleFrame(sf.applymap(only_cells_with_red_text))
             sf_3 = StyleFrame(sf.applymap(only_cells_with_red_text_emp))
@@ -716,11 +791,12 @@ class application_window:
             return predictions,accuarcy,get_scores(top_2_val) """
 
             consumption_dict = {}
-            #consumption_dict['Finetuning Logic'] = "Not Consumed"
+            consumption_dict['Finetuning Logic'] = "Not Consumed"
             consumption_dict['Qualifying criteria'] = "Not Used"
             consumption_dict['Age logic'] = "Not Consumed"
             consumption_dict['Insurance settlement history'] = "Not Consumed"
             consumption_dict['Ethnicity Logic'] = "Not Consumed"
+            consumption_dict['Layer Logic'] = "Not Consumed"
             f = open('Value-json/hyperparam.json') 
             hyperparam = json.load(f)
             to_check_array = np.where(to_check_array == 0, hyperparam['alpha'], 1)
@@ -764,6 +840,8 @@ class application_window:
             if activation['settlement_logic'] == 'active':
 
                 df = pd.read_excel(os.curdir + '/Logic Container/Insurance settlement history.xlsx')
+
+ 
             
 
 
@@ -792,14 +870,13 @@ class application_window:
 
                                 if inx!=38:
 
-                                    if '#' not in rows[code_idx]:
+
                                         
 
-                                        prob = int(rows[code_idx])/int(total)
-                                        consumption_dict['Insurance settlement history'] = "Consumed"
-                                        tat_val[inx] = tat_val[inx] * prob
-                                    else:
-                                        tat_val[inx] = -100000
+                                    prob = int(rows[code_idx])/int(total)
+                                    consumption_dict['Insurance settlement history'] = "Consumed"
+                                    tat_val[inx] = tat_val[inx] * prob
+                                  
                                         
                                         
                             
@@ -875,6 +952,122 @@ class application_window:
             for inx,score in enumerate(tat_val):
                 code_idx = "Code "+str(inx+1)
                 ethnicity_logic[code_idx] = tat_val[inx]
+            
+            
+            
+            f = open('Value-json/logic_activation.json') 
+            activation = json.load(f)
+
+
+            if activation['finetuning_logic'] == 'active':
+
+                df = pd.read_excel(os.curdir + '/Logic Container/Fine tuning logic.xlsx')
+                #total  = df.iloc[9,:]
+                cols = df.columns
+                for inx,rows in df.iterrows():
+                    if rows['Age']!=rows['Age']:
+                        break
+                    else:
+                        age_r = rows['Age'].split('-')
+                    
+
+                        age_start = int(age_r[0])
+                        age_end = int(age_r[1])
+                        
+
+                        
+                        if age_start <= age <= age_end:
+                            
+                            for inx,score in enumerate(tat_val):
+                                code_idx = "Code "+str(inx+1)
+
+                                if inx!=38:
+
+
+                                    if '#' not in str(rows[code_idx]):
+                                        
+        
+                                        prob = rows[code_idx]
+                          
+                                        consumption_dict['Finetuning Logic'] = "Consumed"
+
+                                        tat_val[inx] = tat_val[inx] * prob
+                                    else:
+                                        tat_val[inx] = -100000
+
+                            
+
+                                    
+
+                                    
+                        
+
+                                else:
+                                    continue
+
+
+
+
+            
+            finetuning_logic = {}
+
+
+            for inx,score in enumerate(tat_val):
+                code_idx = "Code "+str(inx+1)
+                finetuning_logic[code_idx] = tat_val[inx]
+
+            
+
+
+            f = open('Value-json/logic_activation.json') 
+            activation = json.load(f)
+
+
+            if activation['layer_logic'] == 'active':
+
+                df = pd.read_excel(os.curdir + '/Logic Container/Layer Logic.xlsx')
+
+    
+            
+                layer = 0
+
+                for idx,rows in df.iterrows():
+                    layer = layer + 1
+                    if layer == 1:
+                        initial_prediction_weight = rows['Weightage']
+                    elif layer ==2:
+                        settlement_logic_weight = rows['Weightage']
+                    elif layer == 3:
+                        ethnicity_logic_weight = rows['Weightage']
+                    elif layer == 4:
+                        finetuning_logic_weight = rows['Weightage']
+                    else:
+                        pass
+
+                
+                for inx,score in enumerate(tat_val):
+                    code_idx = "Code "+str(inx+1)
+                    tat_val[inx] = initial_prediction_weight*intial_logic[code_idx] + settlement_logic_weight*settlement_logic[code_idx] + ethnicity_logic_weight*ethnicity_logic[code_idx] + finetuning_logic_weight*finetuning_logic[code_idx]
+                    consumption_dict['Layer Logic'] = "Consumed"
+                
+                
+
+
+
+                   
+                   
+
+
+
+        
+            
+            final_logic = {}
+
+
+            for inx,score in enumerate(tat_val):
+                code_idx = "Code "+str(inx+1)
+                final_logic[code_idx] = tat_val[inx]
+
 
 
 
@@ -899,9 +1092,12 @@ class application_window:
             intial_logic_pred = get_logic_pred(intial_logic)
             ethnicity_logic_pred = get_logic_pred(ethnicity_logic)
             settlement_logic_pred = get_logic_pred(settlement_logic)
-
+            
+            finetuning_logic_pred = get_logic_pred(finetuning_logic)
+            final_logic_pred = get_logic_pred(final_logic)
             consumption_metric = [col_number,json.dumps(consumption_dict)]
-            prediction_metric = [col_number,json.dumps(intial_logic),intial_logic_pred,json.dumps(settlement_logic),settlement_logic_pred,json.dumps(ethnicity_logic),ethnicity_logic_pred]
+            prediction_metric = [col_number,json.dumps(intial_logic),intial_logic_pred,json.dumps(settlement_logic),settlement_logic_pred,json.dumps(ethnicity_logic),ethnicity_logic_pred,json.dumps(finetuning_logic),finetuning_logic_pred,json.dumps(final_logic),final_logic_pred]
+
 
 
 
@@ -1001,11 +1197,12 @@ class application_window:
                 if lines[0] == "T":
                     test_filepath = lines[1:]
             file.close() 
-            t_filename = os.path.splitext(test_filepath)[0]
+            
+            t_filename = Path(test_filepath).stem
 
             df.to_csv("AI External-Outputs/Consumption_metric_{}.csv".format(t_filename))
             
-            df = pd.DataFrame(prediction_metrics, columns =['Column Reference Code','Intial Score','Intial Prediction','Settlement Logic','Settlement Prediction','Ethnicity Logic','Ethnicity Prediction'])  
+            df = pd.DataFrame(prediction_metrics, columns =['Column Reference Code','Intial Score','Intial Prediction','Settlement Logic','Settlement Prediction','Ethnicity Logic','Ethnicity Prediction','Fine Tuning Logic','FineTuning Prediction','Final Logic','Final Prediction'])  
             
             df.to_csv("AI External-Outputs/Prediction_metric_{}.csv".format(t_filename))
             df = pd.DataFrame(prediction_output, columns =['Column Reference Code','Actual Code','Age','Ethnicity','Predcition Codes','Relative Confidence Percentage','Standard Confidence Percentage'])  

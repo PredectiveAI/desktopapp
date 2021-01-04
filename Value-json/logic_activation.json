@@ -3,5 +3,6 @@
   "settlement_logic": "active",
   "ethnicity_logic" : "active",
   "qualifying_criteria" : "active",
-  "finetuning_logic" : "active"
+  "finetuning_logic" : "active",
+  "layer_logic" : "active"
  }
