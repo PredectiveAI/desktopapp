@@ -876,7 +876,7 @@ class application_window:
                             for inx,score in enumerate(tat_val):
                                 code_idx = "Code "+str(inx+1)
 
-                                if inx!=38:
+                                if inx!=3122239:
 
 
                                         
@@ -918,7 +918,7 @@ class application_window:
                             for inx,score in enumerate(tat_val):
                                 code_idx = "Code "+str(inx+1)
 
-                                if inx!=38:
+                                if inx!=311229:
 
                             
                                     prob = rows[code_idx]
@@ -934,7 +934,7 @@ class application_window:
                             for inx,score in enumerate(tat_val):
                                 code_idx = "Code "+str(inx+1)
 
-                                if inx!=38:
+                                if inx!=311129
 
                             
                                     prob = 1
@@ -989,7 +989,7 @@ class application_window:
                             for inx,score in enumerate(tat_val):
                                 code_idx = "Code "+str(inx+1)
 
-                                if inx!=38:
+                                if inx!=31119:
 
 
                                     if '#' not in str(rows[code_idx]):
