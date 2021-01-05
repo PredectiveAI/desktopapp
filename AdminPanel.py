@@ -532,9 +532,12 @@ class application_window:
                 sf_3.to_excel(curdir+'/AI Internal-Outputs/output_0.xlsx').save()
                 df = read_data(curdir+'/AI Internal-Outputs/output_0.xlsx')
                 code_dict = []
-                print(len(df.columns)+1)
-
-                for i in range(1,len(df.columns)+1):
+                lent = 0
+                for col in df.columns:
+                    if 'Code' in col:
+                        lent = lent + 1
+                print(lent)
+                for i in range(1,lent):
                     code_dict.append("Code "+str(i))
                 qf=[]
                 df = df.fillna(0)
@@ -566,8 +569,12 @@ class application_window:
             sf_2.to_excel(curdir+'/AI Internal-Outputs/output.xlsx').save()
             df = read_data(curdir+'/AI Internal-Outputs/output.xlsx')
             code_dict = []
-            print(len(df.columns)+1)
-            for i in range(1,len(df.columns)+1):
+            lent = 0
+            for col in df.columns:
+                if 'Code' in col:
+                    lent = lent + 1
+            print(lent)
+            for i in range(1,lent):
                 code_dict.append("Code "+str(i))
             qf=[]
             df = df.fillna(0)
