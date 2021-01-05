@@ -1139,8 +1139,8 @@ class application_window:
             scores = np.where(scores == 'A',1,scores)
             #scores = np.prod(scores)
             #weightage.append(scores)
-            np.savetxt('AI Internal-Outputs/master_log_weightage.txt', weightage)
-            np.savetxt('AI Internal-Outputs/master_log_score.txt',scores)
+            np.savetxt('/AI Internal-Outputs/master_log_weightage.txt', weightage)
+            np.savetxt('/AI Internal-Outputs/master_log_score.txt',scores)
             
             
 
