@@ -532,7 +532,9 @@ class application_window:
                 sf_3.to_excel(curdir+'/AI Internal-Outputs/output_0.xlsx').save()
                 df = read_data(curdir+'/AI Internal-Outputs/output_0.xlsx')
                 code_dict = []
-                for i in range(1,39):
+                print(len(df.columns)+1)
+
+                for i in range(1,len(df.columns)+1):
                     code_dict.append("Code "+str(i))
                 qf=[]
                 df = df.fillna(0)
@@ -564,7 +566,8 @@ class application_window:
             sf_2.to_excel(curdir+'/AI Internal-Outputs/output.xlsx').save()
             df = read_data(curdir+'/AI Internal-Outputs/output.xlsx')
             code_dict = []
-            for i in range(1,39):
+            print(len(df.columns)+1)
+            for i in range(1,len(df.columns)+1):
                 code_dict.append("Code "+str(i))
             qf=[]
             df = df.fillna(0)
@@ -753,10 +756,7 @@ class application_window:
                 #print(check)
                 
                 if len(check)>0:
-                    print(key)
-                    print(check)
-                    print(val)
-                    print(attempt)
+    
                     
                     
                     hell_dict[key]= 1
@@ -922,7 +922,7 @@ class application_window:
 
                             
                                     prob = rows[code_idx]
-                                    print(code_idx,prob)
+                   
                                     consumption_dict['Ethnicity Logic'] = "Consumed"
                                     
                                     
@@ -934,11 +934,11 @@ class application_window:
                             for inx,score in enumerate(tat_val):
                                 code_idx = "Code "+str(inx+1)
 
-                                if inx!=311129
+                                if inx!=311129:
 
                             
                                     prob = 1
-                                    print(code_idx,prob)
+                        
                                     consumption_dict['Ethnicity Logic'] = "Consumed"
                                     
                                     
