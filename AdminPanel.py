@@ -1055,7 +1055,7 @@ class application_window:
                 
                 for inx,score in enumerate(tat_val):
                     code_idx = "Code "+str(inx+1)
-                    tat_val[inx] = initial_prediction_weight*intial_logic[code_idx] + settlement_logic_weight*settlement_logic[code_idx] + ethnicity_logic_weight*ethnicity_logic[code_idx] + finetuning_logic_weight*finetuning_logic[code_idx]
+                    tat_val[inx] = intial_logic[code_idx]*(initial_prediction_weight +  settlement_logic_weight*(settlement_logic[code_idx]/intial_logic[code_idx]) + ethnicity_logic_weight*(ethnicity_logic[code_idx]/settlement_logic[code_idx]) + finetuning_logic_weight*(finetuning_logic[code_idx]/ethnicity_logic[code_idx]))
                     consumption_dict['Layer Logic'] = "Consumed"
                 
                 
