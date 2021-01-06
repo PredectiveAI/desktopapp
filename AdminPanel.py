@@ -869,8 +869,13 @@ class application_window:
 
                         
                         if age_start <= age <= age_end:
-
-                            total = sum(rows[1:].values)
+                            total = 0
+                            val_arr = (rows[1:].values)
+                            for val in val_arr:
+                                if '#' in str(val):
+                                    pass
+                                else:
+                                    total = total + val
 
 
 
