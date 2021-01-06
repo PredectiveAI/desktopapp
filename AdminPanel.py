@@ -372,7 +372,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['green']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
 
 
                     elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
@@ -383,7 +383,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['yellow']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
                         
 
                     elif cell.style.font_color in {utils.colors.purple, '800080'}:
@@ -394,7 +394,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['purple']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
 
                     
                     elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
@@ -406,7 +406,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['red']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
 
 
                     elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
@@ -417,7 +417,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['blue']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
                     
                     
                     elif cell.style.font_color in {utils.colors.black, '00000000'}:
@@ -428,7 +428,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['black']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
                     else:
                         return 100
 
@@ -454,7 +454,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['green']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
 
 
                     elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
@@ -465,7 +465,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['yellow']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
                         
 
                     elif cell.style.font_color in {utils.colors.purple, '800080'}:
@@ -476,7 +476,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['purple']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
 
                     
                     elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
@@ -487,7 +487,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['red']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
 
 
                     elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
@@ -498,7 +498,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['blue']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
                     
                     
                     elif cell.style.font_color in {utils.colors.black, '00000000'}:
@@ -509,7 +509,7 @@ class application_window:
                         if cer[0] == 'C':
                             return hyperparam['black']
                         elif cer[0] == 'V':
-                            return int(cer[1])
+                            return float(cer[1])
 
                     else:
                         return 100
@@ -883,7 +883,7 @@ class application_window:
 
                                         
 
-                                    prob = int(rows[code_idx])/int(total)
+                                    prob = float(rows[code_idx])/float(total)
                                     consumption_dict['Insurance settlement history'] = "Consumed"
                                     tat_val[inx] = tat_val[inx] * prob
                                   
@@ -1118,7 +1118,7 @@ class application_window:
             top_2_idx = []
             for val in predictions:
                 wer = val.split()
-                top_2_idx.append(int(wer[1]))
+                top_2_idx.append(float(wer[1]))
 
             #print(tat_val)
             #accuarcy = [val/sum(top_2_val) for val in top_2_val]
