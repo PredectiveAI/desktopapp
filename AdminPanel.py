@@ -731,7 +731,10 @@ class application_window:
             for inx,val in enumerate(score_arr):
                 bck = (val/unique_score[idx_file[-inx-1]])*100
                 while bck>100:
-                    bck = bck/10
+                    if abs(bck)>1000:
+                        bck = bck/1000
+                    else:
+                        bck = bck/10
                 comp_std.append(bck)
                 if val>0:
                     cnt+=1
