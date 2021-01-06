@@ -1114,11 +1114,11 @@ class application_window:
 
             
             predictions = list(final_logic_pred)[:5]
-            top_2_val = [float(final_logic[i]) for i in (predictions)]
+            top_2_val = [int(final_logic[i]) for i in (predictions)]
             top_2_idx = []
             for val in predictions:
                 wer = val.split()
-                top_2_idx.append(float(wer[1]))
+                top_2_idx.append(int(wer[1]))
 
             #print(tat_val)
             #accuarcy = [val/sum(top_2_val) for val in top_2_val]
