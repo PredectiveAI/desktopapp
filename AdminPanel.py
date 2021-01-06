@@ -243,7 +243,7 @@ class application_window:
                 if lines[0] == "T":
                     check_from = os.path.dirname(lines[1:])
             file.close() 
-        self.test_sheet_filepath = tkinter.filedialog.askopenfilename(parent=self.root, initialdir=check_from,title='Please Choose Test Sheet',filetypes=[('Excel File', '.xlsx'),('CSV Excel file', '.csv')])
+        self.test_sheet_filepaths = list(tkinter.filedialog.askopenfilenames(parent=self.root, initialdir=check_from,title='Please Choose Test Sheet',filetypes=[('Excel File', '.xlsx'),('CSV Excel file', '.csv')]))
         file1 = open("AI External-Outputs/path_info.txt", "w")  # append mode 
                 
         file1.write("M"+self.master_sheet_filepath)
@@ -1117,14 +1117,20 @@ class application_window:
 
 
 
+            
+            predictions = list(final_logic_pred)[:5]
+            top_2_val = [float(final_logic[i]) for i in (predictions)]
+            top_2_idx = []
+            for val in predictions:
+                wer = val.split()
+                top_2_idx.append(int(wer[1]))
 
-            top_2_idx = np.argsort(tat_val)[-5:]
-            top_2_val = [tat_val[i] for i in reversed(top_2_idx)]
             #print(tat_val)
-            accuarcy = [val/sum(top_2_val) for val in top_2_val]
-            predictions = ["Code " + str(idx+1) for idx in reversed(top_2_idx)]
+            #accuarcy = [val/sum(top_2_val) for val in top_2_val]
+            #predictions = ["Code " + str(idx+1) for idx in reversed(top_2_idx)]
+
             score_relat,score_std = get_percentile(top_2_val,sum_std_mat,top_2_idx,to_check_array)
-            return predictions,accuarcy,score_relat,score_std,prediction_metric,consumption_metric
+            return predictions,score_relat,score_std,prediction_metric,consumption_metric
             
 
 
@@ -1159,7 +1165,7 @@ class application_window:
             save_master_log(self.master_sheet_filepath)
             standard_matrix,qualifying_dict,sum_std_mat = get_standard_matrix(sf)
             to_check_array,age,ethnicity = get_test_output(df,col_number)
-            predictions,accuracy,score_relat,score_std,prediction_metric,consumption_metric = get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number)
+            predictions,score_relat,score_std,prediction_metric,consumption_metric = get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number)
   
             
             #print("Age of the user is = ",age)
@@ -1174,59 +1180,62 @@ class application_window:
             print("____________*** Prediction Al ***_____________________")
             print("Please make sure master sheet and test sheet are uploaded")
             print(" ")
+
+            for test_sheet_filepath in self.test_sheet_filepaths:
+                self.test_sheet_filepath = test_sheet_filepath
             
-            test_df = read_data(self.test_sheet_filepath)
-            col_name = test_df.columns
-            col_name = col_name
-            test_df = read_data(self.test_sheet_filepath)
-            test_df = df_column_uniquify(test_df)
-            temp_df = test_df.iloc[:,3:]
-            col_name = temp_df.columns
-            code_values = temp_df.iloc[0].values
-            prediction_output = []
-            accuracy_1 = 0
-            accuracy_2 = 0
-            cnt = 0
-            
-  
-            # Progress bar widget 
-            prediction_metrics = []
-            consumption_metrics = []
-           
-            for idx,col in enumerate(col_name):
-                age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric= execute(test_df,col)
-                consumption_metrics.append(consumption_metric)
-                prediction_metrics.append(prediction_metric)
-                prediction_output.append([col,code_values[idx], age,ethnicity, prediction,score_relat,score_std])
-                cnt = cnt+1
-                if code_values[idx] in [prediction[0],prediction[1]]:
+                test_df = read_data(self.test_sheet_filepath)
+                col_name = test_df.columns
+                col_name = col_name
+                test_df = read_data(self.test_sheet_filepath)
+                test_df = df_column_uniquify(test_df)
+                temp_df = test_df.iloc[:,3:]
+                col_name = temp_df.columns
+                code_values = temp_df.iloc[0].values
+                prediction_output = []
+                accuracy_1 = 0
+                accuracy_2 = 0
+                cnt = 0
                 
-                    accuracy_2 = accuracy_2+1
-                if code_values[idx] == prediction[0]:
+    
+                # Progress bar widget 
+                prediction_metrics = []
+                consumption_metrics = []
+            
+                for idx,col in enumerate(col_name):
+                    age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric= execute(test_df,col)
+                    consumption_metrics.append(consumption_metric)
+                    prediction_metrics.append(prediction_metric)
+                    prediction_output.append([col,code_values[idx], age,ethnicity, prediction,score_relat,score_std])
+                    cnt = cnt+1
+                    if code_values[idx] in [prediction[0],prediction[1]]:
+                    
+                        accuracy_2 = accuracy_2+1
+                    if code_values[idx] == prediction[0]:
 
-                    accuracy_1 = accuracy_1+1
-            
-            df = pd.DataFrame(consumption_metrics, columns =['Column Reference Code','Logic Consumption Dictonary'])
-            file = open("AI External-Outputs/path_info.txt","r")
-            for lines in file.read().splitlines():
-                if lines[0] == "T":
-                    test_filepath = lines[1:]
-            file.close() 
-            
-            t_filename = Path(test_filepath).stem
+                        accuracy_1 = accuracy_1+1
+                
+                df = pd.DataFrame(consumption_metrics, columns =['Column Reference Code','Logic Consumption Dictonary'])
+                file = open("AI External-Outputs/path_info.txt","r")
+                for lines in file.read().splitlines():
+                    if lines[0] == "T":
+                        test_filepath = lines[1:]
+                file.close() 
+                
+                t_filename = Path(test_filepath).stem
 
-            df.to_csv("AI External-Outputs/Consumption_metric_{}.csv".format(t_filename))
+                df.to_csv("AI External-Outputs/Consumption_metric_{}.csv".format(t_filename))
+                
+                df = pd.DataFrame(prediction_metrics, columns =['Column Reference Code','Intial Score','Intial Prediction','Settlement Logic','Settlement Prediction','Ethnicity Logic','Ethnicity Prediction','Fine Tuning Logic','FineTuning Prediction','Final Logic','Final Prediction'])  
+                
+                df.to_csv("AI External-Outputs/Prediction_metric_{}.csv".format(t_filename))
+                df = pd.DataFrame(prediction_output, columns =['Column Reference Code','Actual Code','Age','Ethnicity','Predcition Codes','Relative Confidence Percentage','Standard Confidence Percentage'])  
+                df.to_csv("AI External-Outputs/Prediction_output_{}.csv".format(t_filename))
+                #print("Accurate is ",accuracy)
+                self.cnt = cnt
             
-            df = pd.DataFrame(prediction_metrics, columns =['Column Reference Code','Intial Score','Intial Prediction','Settlement Logic','Settlement Prediction','Ethnicity Logic','Ethnicity Prediction','Fine Tuning Logic','FineTuning Prediction','Final Logic','Final Prediction'])  
-            
-            df.to_csv("AI External-Outputs/Prediction_metric_{}.csv".format(t_filename))
-            df = pd.DataFrame(prediction_output, columns =['Column Reference Code','Actual Code','Age','Ethnicity','Predcition Codes','Relative Confidence Percentage','Standard Confidence Percentage'])  
-            df.to_csv("AI External-Outputs/Prediction_output_{}.csv".format(t_filename))
-            #print("Accurate is ",accuracy)
-            self.cnt = cnt
-         
-            self.accuracy_2 = (accuracy_2/cnt)*100
-            self.accuracy_1 = (accuracy_1/cnt)*100
+                self.accuracy_2 = (accuracy_2/cnt)*100
+                self.accuracy_1 = (accuracy_1/cnt)*100
 
         execute_single_files()
 
