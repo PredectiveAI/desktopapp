@@ -18,6 +18,7 @@ import uuid
 from itertools import count
 from tkinter.tix import ScrolledWindow
 import json
+from pathlib import Path
 # Designing window for registration
 
 
@@ -389,7 +390,15 @@ class application_window():
 
 
     def get_prediction(self,case_num):
-        f_pred = curdir + "/AI External-Outputs/Prediction_output.csv"
+        file = open("AI External-Outputs/path_info.txt","r")
+        for lines in file.read().splitlines():
+            if lines[0] == "T":
+                test_filepath = lines[1:]
+        file.close() 
+        
+        t_filename = Path(test_filepath).stem
+        
+        f_pred = curdir + ("/AI External-Outputs/Prediction_output_{}.csv".format(t_filename))
         pred = pd.read_csv(f_pred)
         pred_re = pred.loc[pred['Column Reference Code']==case_num]
         

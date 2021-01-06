@@ -198,7 +198,7 @@ class application_window:
         frame.geometry("1024x1024")
         self.current_dir = curdir
         b1 = tkinter.Button(frame, text='Select Master Sheet',width=15, height=2, command=self.get_path_master).place(x=30, y=50)
-        b2 = tkinter.Button(frame, text='Select Test Sheet',width=15, height=2, command=self.get_path_test).place(x=230,y=50)
+        b2 = tkinter.Button(frame, text='Select Multiple Test Sheets (use ctrl + click to select)',width=40, height=2, command=self.get_path_test).place(x=300,y=50)
         #las - Label(frame,)
         self.progressbar = ttk.Progressbar(frame, mode='determinate',cursor='spider',length=300)
         self.progressbar.grid(column=1, row=0, sticky=W)
@@ -243,15 +243,11 @@ class application_window:
                 if lines[0] == "T":
                     check_from = os.path.dirname(lines[1:])
             file.close() 
+        
         self.test_sheet_filepaths = list(tkinter.filedialog.askopenfilenames(parent=self.root, initialdir=check_from,title='Please Choose Test Sheet',filetypes=[('Excel File', '.xlsx'),('CSV Excel file', '.csv')]))
-        file1 = open("AI External-Outputs/path_info.txt", "w")  # append mode 
+     
                 
-        file1.write("M"+self.master_sheet_filepath)
-        file1.write(" \n") 
-    
-        file1.write("T"+self.test_sheet_filepath)
-        file1.write(" \n")
-        file1.close() 
+
         """print(f)"""
 
 
@@ -1183,6 +1179,15 @@ class application_window:
 
             for test_sheet_filepath in self.test_sheet_filepaths:
                 self.test_sheet_filepath = test_sheet_filepath
+
+                file1 = open("AI External-Outputs/path_info.txt", "w")
+
+                file1.write("M"+self.master_sheet_filepath)
+                file1.write(" \n") 
+            
+                file1.write("T"+self.test_sheet_filepath)
+                file1.write(" \n")
+                file1.close() 
             
                 test_df = read_data(self.test_sheet_filepath)
                 col_name = test_df.columns
@@ -1327,7 +1332,14 @@ class application_window:
             grid.pack(side="top", expand=2, fill="both")
 
             # open file
-            with open(self.current_dir+"/AI External-Outputs/Prediction_output.csv", newline = "") as file:
+            file = open("AI External-Outputs/path_info.txt","r")
+            for lines in file.read().splitlines():
+                if lines[0] == "T":
+                    test_filepath = lines[1:]
+            file.close() 
+            
+            t_filename = Path(test_filepath).stem
+            with open(self.current_dir+"/AI External-Outputs/Prediction_output_{}.csv".format(t_filename), newline = "") as file:
                 reader = csv.reader(file)
                 parsed_rows = 0
 
