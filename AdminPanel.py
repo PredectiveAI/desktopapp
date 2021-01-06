@@ -881,11 +881,18 @@ class application_window:
                                 if inx!=3122239:
 
 
+                                    if '#' in str(rows[code_idx]):
+                                        pass
+                                    
+                                    else:
+
+
                                         
 
-                                    prob = float(rows[code_idx])/float(total)
-                                    consumption_dict['Insurance settlement history'] = "Consumed"
-                                    tat_val[inx] = tat_val[inx] * prob
+                                        prob = float(rows[code_idx])/float(total)
+                                        if prob!=0:
+                                        consumption_dict['Insurance settlement history'] = "Consumed"
+                                        tat_val[inx] = tat_val[inx] * prob
                                   
                                         
                                         
