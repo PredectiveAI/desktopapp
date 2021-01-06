@@ -890,7 +890,7 @@ class application_window:
                                         
 
                                         prob = float(rows[code_idx])/float(total)
-                                        if prob!=0:
+                                       
                                         consumption_dict['Insurance settlement history'] = "Consumed"
                                         tat_val[inx] = tat_val[inx] * prob
                                   
