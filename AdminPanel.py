@@ -818,10 +818,12 @@ class application_window:
                 line = file.read()
                 inner_list = [elt.strip() for elt in line.split(',')]
             print(inner_list)
-            if col_number in int(inner_list):
-                for ind in st:
-                    code_idx = "Code "+str(ind+1)
-                    mat_dict[code_idx] = np.multiply(to_check_array,st[ind])
+            for number in inner_list:
+                if col_number == int(number):
+                    for ind in st:
+                        code_idx = "Code "+str(ind+1)
+                        mat_dict[code_idx] = np.multiply(to_check_array,st[ind])
+            
             mat_master_dict[col_number] = mat_dict
             
                 
