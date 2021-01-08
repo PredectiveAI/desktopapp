@@ -1257,7 +1257,7 @@ class application_window:
                 
                 t_filename = Path(test_filepath).stem
 
-                with open("AI External-Outputs/matmul_{}.csv".format(t_filename),'wb') as f:
+                with open("AI External-Outputs/matmul_{}.csv".format(t_filename),'w') as f:
                     w = csv.writer(f)
                     w.writerow(mat_master_dict.keys())
                     w.writerow(mat_master_dict.values())
