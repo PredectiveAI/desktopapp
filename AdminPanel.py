@@ -817,7 +817,8 @@ class application_window:
             with open("Input Sheets/mat_dict.txt",'r') as file:
                 line = file.read()
                 inner_list = [elt.strip() for elt in line.split(',')]
-            if col_number in inner_list:
+            print(inner_list)
+            if col_number in int(inner_list):
                 for ind in st:
                     code_idx = "Code "+str(ind+1)
                     mat_dict[code_idx] = np.multiply(to_check_array,st[ind])
