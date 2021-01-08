@@ -729,7 +729,10 @@ class application_window:
             inx = max_v
             comp_std = []
             for inx,val in enumerate(score_arr):
-                bck = (val/unique_score[idx_file[-inx-1]])*100
+                try:
+                    bck = (val/unique_score[idx_file[-inx-1]])*100
+                except:
+                    bck = 127.7789
                 bck = bck/10
                 comp_std.append(bck)
                 if val>0:
