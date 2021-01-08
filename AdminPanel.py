@@ -532,7 +532,7 @@ class application_window:
                 for col in df.columns:
                     if 'Code' in col:
                         lent = lent + 1
-                print(lent)
+                
                 for i in range(1,lent):
                     code_dict.append("Code "+str(i))
                 qf=[]
@@ -593,7 +593,7 @@ class application_window:
             
             
             #print(standard_matrix)
-            return standard_matrix,qualifying_dict,get_sum(sf_3)
+            return standard_matrix,qualifying_dict,get_sum(sf_3),lent
 
 
      
@@ -601,9 +601,9 @@ class application_window:
 
 
 
-        def get_age_decision(age):
+        def get_age_decision(age,lent):
             code_dict = []
-            for i in range(1,40):
+            for i in range(1,lent):
                 code_dict.append("Code "+str(i))
             
             dicte = dict.fromkeys(code_dict, 0)
@@ -744,9 +744,9 @@ class application_window:
             scorecard = [(((i/max_v)*100)-(cnt*mulk)*2.2132) for i in score_arr]
             return scorecard,comp_std
 
-        def get_qualify(attempt,qualify_dict):
+        def get_qualify(attempt,qualify_dict,lent):
             code_dict = []
-            for i in range(1,40):
+            for i in range(1,lent):
                 code_dict.append("Code "+str(i))
             
             hell_dict = dict.fromkeys(code_dict, 1)
@@ -779,7 +779,7 @@ class application_window:
             df_check = df_check.fillna(0)
             to_check_array = df_check[col_number].values
             return to_check_array,age,ethnicity
-        def get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number):
+        def get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number,lent):
             
             """ dicte,prediction_codes = get_age_decision(age)
             to_check_array_match = np.where(to_check_array == 0, 0, 1)
@@ -811,8 +811,8 @@ class application_window:
             hyperparam = json.load(f)
             to_check_array = np.where(to_check_array == 0, hyperparam['alpha'], 1)
             tat_val = np.dot(to_check_array.T,standard_matrix)
-            dicte,prediction_codes = get_age_decision(age)
-            qualify_dict = get_qualify(to_check_array,qualifying_dict)
+            dicte,prediction_codes = get_age_decision(age,lent)
+            qualify_dict = get_qualify(to_check_array,qualifying_dict,lent)
             col_number =col_number
             intial_logic = {}
             for idx,val in enumerate(tat_val):
@@ -1170,9 +1170,9 @@ class application_window:
             
             sf = read_master_sheet(self.master_sheet_filepath)
             save_master_log(self.master_sheet_filepath)
-            standard_matrix,qualifying_dict,sum_std_mat = get_standard_matrix(sf)
+            standard_matrix,qualifying_dict,sum_std_mat,lent = get_standard_matrix(sf)
             to_check_array,age,ethnicity = get_test_output(df,col_number)
-            predictions,score_relat,score_std,prediction_metric,consumption_metric = get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number)
+            predictions,score_relat,score_std,prediction_metric,consumption_metric = get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number,lent)
   
             
             #print("Age of the user is = ",age)
