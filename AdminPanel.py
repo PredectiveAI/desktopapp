@@ -814,21 +814,29 @@ class application_window:
             hyperparam = json.load(f)
             st = standard_matrix.T
             mat_dict = {}
+            to_check_array = np.where(to_check_array == 0, hyperparam['alpha'], 1)
             with open("Input Sheets/mat_dict.txt",'r') as file:
                 line = file.read()
                 inner_list = [elt.strip() for elt in line.split(',')]
             print(inner_list)
             for number in inner_list:
                 if col_number == int(number):
-                    for ind in st:
+                    for ind in range(len(st)):
                         code_idx = "Code "+str(ind+1)
-                        mat_dict[code_idx] = np.multiply(to_check_array,st[ind])
+                        ajio = np.multiply(to_check_array,st[ind])
+                        tax_p = {}
+                        for aj in range(len(ajio)):
+                            tax_p['Row Number = {}'.format(aj+4)] = ajio[aj]
+                          
+
+
+                        mat_dict[code_idx] = tax_p 
             
             mat_master_dict[col_number] = mat_dict
             
                 
             
-            to_check_array = np.where(to_check_array == 0, hyperparam['alpha'], 1)
+            
             tat_val = np.dot(to_check_array.T,standard_matrix)
             dicte,prediction_codes = get_age_decision(age,lent)
             qualify_dict = get_qualify(to_check_array,qualifying_dict,lent)

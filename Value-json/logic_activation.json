@@ -4,5 +4,5 @@
   "ethnicity_logic" : "active",
   "qualifying_criteria" : "active",
   "finetuning_logic" : "active",
-  "layer_logic" : "active"
+  "layer_logic" : "inactive"
  }
