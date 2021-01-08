@@ -782,7 +782,7 @@ class application_window:
             df_check = df_check.fillna(0)
             to_check_array = df_check[col_number].values
             return to_check_array,age,ethnicity
-        def get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number,lent):
+        def get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number,lent,mat_master_dict):
             
             """ dicte,prediction_codes = get_age_decision(age)
             to_check_array_match = np.where(to_check_array == 0, 0, 1)
@@ -812,6 +812,19 @@ class application_window:
             consumption_dict['Layer Logic'] = "Not Consumed"
             f = open('Value-json/hyperparam.json') 
             hyperparam = json.load(f)
+            st = standard_matrix.T
+            mat_dict = {}
+            with open("Input Sheets/mat_dict.txt",'r') as file:
+                line = file.read()
+                inner_list = [elt.strip() for elt in line.split(',')]
+            if col_number in inner_list:
+                for ind in st:
+                    code_idx = "Code "+str(ind+1)
+                    mat_dict[code_idx] = np.multiply(to_check_array,st[ind])
+            mat_master_dict[col_number] = mat_dict
+            
+                
+            
             to_check_array = np.where(to_check_array == 0, hyperparam['alpha'], 1)
             tat_val = np.dot(to_check_array.T,standard_matrix)
             dicte,prediction_codes = get_age_decision(age,lent)
@@ -1140,7 +1153,7 @@ class application_window:
             #predictions = ["Code " + str(idx+1) for idx in reversed(top_2_idx)]
 
             score_relat,score_std = get_percentile(top_2_val,sum_std_mat,top_2_idx,to_check_array)
-            return predictions,score_relat,score_std,prediction_metric,consumption_metric
+            return predictions,score_relat,score_std,prediction_metric,consumption_metric,mat_master_dict
             
 
 
@@ -1168,14 +1181,14 @@ class application_window:
             
 
 
-        def execute(df,col_number):
+        def execute(df,col_number,mat_master_dict):
 
             
             sf = read_master_sheet(self.master_sheet_filepath)
             save_master_log(self.master_sheet_filepath)
             standard_matrix,qualifying_dict,sum_std_mat,lent = get_standard_matrix(sf)
             to_check_array,age,ethnicity = get_test_output(df,col_number)
-            predictions,score_relat,score_std,prediction_metric,consumption_metric = get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number,lent)
+            predictions,score_relat,score_std,prediction_metric,consumption_metric,mat_master_dict = get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number,lent,mat_master_dict)
   
             
             #print("Age of the user is = ",age)
@@ -1183,7 +1196,7 @@ class application_window:
             #print(predictions)
             #print("With Cumilitave scores of :")
             #print(scores)
-            return age,predictions,score_relat,score_std,ethnicity,prediction_metric,consumption_metric
+            return age,predictions,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict
 
 
         def execute_single_files():
@@ -1220,9 +1233,10 @@ class application_window:
                 # Progress bar widget 
                 prediction_metrics = []
                 consumption_metrics = []
+                mat_master_dict = {}
             
                 for idx,col in enumerate(col_name):
-                    age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric= execute(test_df,col)
+                    age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict = execute(test_df,col,mat_master_dict)
                     consumption_metrics.append(consumption_metric)
                     prediction_metrics.append(prediction_metric)
                     prediction_output.append([col,code_values[idx], age,ethnicity, prediction,score_relat,score_std])
@@ -1242,6 +1256,11 @@ class application_window:
                 file.close() 
                 
                 t_filename = Path(test_filepath).stem
+
+                with open("AI External-Outputs/matmul_{}.csv".format(t_filename),'wb') as f:
+                    w = csv.writer(f)
+                    w.writerow(mat_master_dict.keys())
+                    w.writerow(mat_master_dict.values())
 
                 df.to_csv("AI External-Outputs/Consumption_metric_{}.csv".format(t_filename))
                 

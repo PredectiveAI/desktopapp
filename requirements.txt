@@ -1,8 +1,0 @@
-tkinter
-numpy
-pandas
-styleframe
-tkmagicgrid
-json
-threading
-pillow
