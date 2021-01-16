@@ -358,6 +358,8 @@ class application_window:
                 if cell!=cell:
                     return hyperparam['empty']
 
+                
+
                 if '(' in str(cell.value):
                 
                     if cell.style.bg_color in {utils.colors.red, 'FFFF0000'}:
@@ -369,6 +371,8 @@ class application_window:
                         check = check[:-1]
                         cert = check.split('(')
                         cer = cert[1].split(',')
+                        print("print cer")
+                        print(cer)
                         if cer[0] == 'C':
                             return hyperparam['green']
                         elif cer[0] == 'V':
@@ -380,6 +384,7 @@ class application_window:
                         check = check[:-1]
                         cert = check.split('(')
                         cer = cert[1].split(',')
+                        print(cer)
                         if cer[0] == 'C':
                             return hyperparam['yellow']
                         elif cer[0] == 'V':
@@ -391,6 +396,7 @@ class application_window:
                         check = check[:-1]
                         cert = check.split('(')
                         cer = cert[1].split(',')
+                        print(cer)
                         if cer[0] == 'C':
                             return hyperparam['purple']
                         elif cer[0] == 'V':
@@ -430,7 +436,14 @@ class application_window:
                         elif cer[0] == 'V':
                             return float(cer[1])
                     else:
-                        return 100
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['black']
+                        elif cer[0] == 'V':
+                            return float(cer[1])
 
                 else:
                     return 100
@@ -449,7 +462,7 @@ class application_window:
                     if cell.style.font_color in {utils.colors.green, 'FF00B050'}:
                         check = cell.value
                         check = check[:-1]
-                        cert = check.split('(')
+                        cert = check.split7('(')
                         cer = cert[1].split(',')
                         if cer[0] == 'C':
                             return hyperparam['green']
