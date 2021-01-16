@@ -371,8 +371,7 @@ class application_window:
                         check = check[:-1]
                         cert = check.split('(')
                         cer = cert[1].split(',')
-                        print("print cer")
-                        print(cer)
+                      
                         if cer[0] == 'C':
                             return hyperparam['green']
                         elif cer[0] == 'V':
@@ -384,7 +383,7 @@ class application_window:
                         check = check[:-1]
                         cert = check.split('(')
                         cer = cert[1].split(',')
-                        print(cer)
+                        
                         if cer[0] == 'C':
                             return hyperparam['yellow']
                         elif cer[0] == 'V':
@@ -525,7 +524,14 @@ class application_window:
                             return float(cer[1])
 
                     else:
-                        return 100
+                        check = cell.value
+                        check = check[:-1]
+                        cert = check.split('(')
+                        cer = cert[1].split(',')
+                        if cer[0] == 'C':
+                            return hyperparam['black']
+                        elif cer[0] == 'V':
+                            return float(cer[1])
                 else:
                     return 100
             
