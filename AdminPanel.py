@@ -461,7 +461,7 @@ class application_window:
                     if cell.style.font_color in {utils.colors.green, 'FF00B050'}:
                         check = cell.value
                         check = check[:-1]
-                        cert = check.split7('(')
+                        cert = check.split('(')
                         cer = cert[1].split(',')
                         if cer[0] == 'C':
                             return hyperparam['green']
