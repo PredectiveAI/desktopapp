@@ -408,7 +408,7 @@ class application_window:
                             check = check[:-1]
                             cert = check.split('(')
                             cer = cert[1].split(',')
-                            print(cer)
+                            #print(cer)
                             if cer[0] == 'C':
                                 return hyperparam['purple']
                             elif cer[0] == 'V':
@@ -601,7 +601,7 @@ class application_window:
             for col in df.columns:
                 if 'Code' in col:
                     lent = lent + 1
-            print(lent)
+            #print(lent)
             for i in range(1,lent):
                 code_dict.append("Code "+str(i))
             qf=[]
@@ -887,7 +887,7 @@ class application_window:
             with open("Input Sheets/mat_dict.txt",'r') as file:
                 line = file.read()
                 inner_list = [elt.strip() for elt in line.split(',')]
-            print(inner_list)
+            #print(inner_list)
 
             f = open('Value-json/logic_activation.json') 
             activation = json.load(f)
@@ -912,7 +912,7 @@ class application_window:
             standard_matrix = standard_matrix
             for inx in range(len(to_check_array)):
                 if to_check_array[inx] < 0:
-                    print(len(standard_matrix[inx]))
+                    #print(len(standard_matrix[inx]))
                     
                     for idx,val in enumerate(standard_matrix[inx]):
                         if val < 0:
@@ -1327,15 +1327,42 @@ class application_window:
                 mat_master_dict = {}
             
                 for idx,col in enumerate(col_name):
+
                     """
+                
                     if col != 9011:
                         pass
                     else:
                     """
+                
                     age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict = execute(test_df,col,mat_master_dict)
                     consumption_metrics.append(consumption_metric)
                     prediction_metrics.append(prediction_metric)
                     prediction_output.append([col,code_values[idx], age,ethnicity, prediction,score_relat,score_std])
+                    if code_values[idx]!=code_values[idx]:
+                        code_values[idx] = "Not Provided"
+                    if col!=col:
+                        col = "Not Provided"
+                    if age!=age:
+                        age = "Not Provided"
+
+                    if ethnicity!=ethnicity:
+                        ethnicity = "Not Provided"
+
+
+
+
+                        
+                    print("-----------------------------------------CASE NUMBER = {}------------------------------------------------------".format(col))
+                    print()
+
+                    print('For Case Number {} with Age {}yrs and Ethnicity {}, has an Actual Provided Code as {} However AI Top 5 Predcition Codes are {} with Relative Confidence Percentage as {}'.format(col,age,ethnicity,code_values[idx],prediction,score_relat))
+                    print()
+                    print("******************************************************************************************************************************************************************************************************************************************")
+
+                    
+                    
+
                     cnt = cnt+1
                     if code_values[idx] in [prediction[0],prediction[1]]:
                     
