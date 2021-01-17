@@ -5,6 +5,7 @@ from tkinter import *
 import os
 import tkinter.filedialog
 import numpy as np
+from numpy.lib.function_base import append
 from numpy.lib.polynomial import polyfit
 from pandas.core import frame
 from styleframe import StyleFrame, utils
@@ -358,94 +359,106 @@ class application_window:
                 if cell!=cell:
                     return hyperparam['empty']
 
-                
-
-                if '(' in str(cell.value):
-                
-                    if cell.style.bg_color in {utils.colors.red, 'FFFF0000'}:
-                        return 150
-                
-
-                    if cell.style.font_color in {utils.colors.green, 'FF00B050'}:
-                        check = cell.value
-                        check = check[:-1]
-                        cert = check.split('(')
-                        cer = cert[1].split(',')
-                      
-                        if cer[0] == 'C':
-                            return hyperparam['green']
-                        elif cer[0] == 'V':
-                            return float(cer[1])
-
-
-                    elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
-                        check = cell.value
-                        check = check[:-1]
-                        cert = check.split('(')
-                        cer = cert[1].split(',')
-                        
-                        if cer[0] == 'C':
-                            return hyperparam['yellow']
-                        elif cer[0] == 'V':
-                            return float(cer[1])
-                        
-
-                    elif cell.style.font_color in {utils.colors.purple, '800080'}:
-                        check = cell.value
-                        check = check[:-1]
-                        cert = check.split('(')
-                        cer = cert[1].split(',')
-                        print(cer)
-                        if cer[0] == 'C':
-                            return hyperparam['purple']
-                        elif cer[0] == 'V':
-                            return float(cer[1])
-
-                    
-                    elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
-                        check = cell.value
-                        check = check[:-1]
-                        cert = check.split('(')
-
-                        cer = cert[1].split(',')
-                        if cer[0] == 'C':
-                            return hyperparam['red']
-                        elif cer[0] == 'V':
-                            return float(cer[1])
-
-
-                    elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
-                        check = cell.value
-                        check = check[:-1]
-                        cert = check.split('(')
-                        cer = cert[1].split(',')
-                        if cer[0] == 'C':
-                            return hyperparam['blue']
-                        elif cer[0] == 'V':
-                            return float(cer[1])
-                    
-                    
-                    elif cell.style.font_color in {utils.colors.black, '00000000'}:
-                        check = cell.value
-                        check = check[:-1]
-                        cert = check.split('(')
-                        cer = cert[1].split(',')
-                        if cer[0] == 'C':
-                            return hyperparam['black']
-                        elif cer[0] == 'V':
-                            return float(cer[1])
-                    else:
-                        check = cell.value
-                        check = check[:-1]
-                        cert = check.split('(')
-                        cer = cert[1].split(',')
-                        if cer[0] == 'C':
-                            return hyperparam['black']
-                        elif cer[0] == 'V':
-                            return float(cer[1])
+                if '#' in str(cell.value) and '(' in str(cell.value):
+                    check = cell.value
+                    check = check[:-1]
+                    cert = check.split('(')
+                    cer = float(cert[1])
+                    return cer
 
                 else:
-                    return 100
+                      
+
+                    
+
+                
+
+                    if '(' in str(cell.value):
+                    
+                        if cell.style.bg_color in {utils.colors.red, 'FFFF0000'}:
+                            return 150
+                    
+
+                        if cell.style.font_color in {utils.colors.green, 'FF00B050'}:
+                            check = cell.value
+                            check = check[:-1]
+                            cert = check.split('(')
+                            cer = cert[1].split(',')
+                        
+                            if cer[0] == 'C':
+                                return hyperparam['green']
+                            elif cer[0] == 'V':
+                                return float(cer[1])
+
+
+                        elif cell.style.font_color in {utils.colors.yellow, '00FFFF00'}:
+                            check = cell.value
+                            check = check[:-1]
+                            cert = check.split('(')
+                            cer = cert[1].split(',')
+                            
+                            if cer[0] == 'C':
+                                return hyperparam['yellow']
+                            elif cer[0] == 'V':
+                                return float(cer[1])
+                            
+
+                        elif cell.style.font_color in {utils.colors.purple, '800080'}:
+                            check = cell.value
+                            check = check[:-1]
+                            cert = check.split('(')
+                            cer = cert[1].split(',')
+                            print(cer)
+                            if cer[0] == 'C':
+                                return hyperparam['purple']
+                            elif cer[0] == 'V':
+                                return float(cer[1])
+
+                        
+                        elif cell.style.font_color in {utils.colors.red, 'FFFF0000'}:
+                            check = cell.value
+                            check = check[:-1]
+                            cert = check.split('(')
+
+                            cer = cert[1].split(',')
+                            if cer[0] == 'C':
+                                return hyperparam['red']
+                            elif cer[0] == 'V':
+                                return float(cer[1])
+
+
+                        elif cell.style.font_color in {utils.colors.blue, 'FF0070C0'}:
+                            check = cell.value
+                            check = check[:-1]
+                            cert = check.split('(')
+                            cer = cert[1].split(',')
+                            if cer[0] == 'C':
+                                return hyperparam['blue']
+                            elif cer[0] == 'V':
+                                return float(cer[1])
+                        
+                        
+                        elif cell.style.font_color in {utils.colors.black, '00000000'}:
+                            check = cell.value
+                            check = check[:-1]
+                            cert = check.split('(')
+                            cer = cert[1].split(',')
+                            if cer[0] == 'C':
+                                return hyperparam['black']
+                            elif cer[0] == 'V':
+                                return float(cer[1])
+                        else:
+                            check = cell.value
+                            check = check[:-1]
+                            cert = check.split('(')
+                            cer = cert[1].split(',')
+                            if cer[0] == 'C':
+                                return hyperparam['black']
+                            elif cer[0] == 'V':
+                                return float(cer[1])
+
+                    else:
+                        return 100
 
             
             
@@ -740,7 +753,7 @@ class application_window:
             cnt = 0
             
             master_attempt = np.where(sum_std_mat ==0,0,1)
-            score_mul = np.dot(df_attempt.T,master_attempt)
+            score_mul = df_attempt.T @ master_attempt
             score_mul = [i * 120 for i in score_mul]
         
             unique_score = score_mul
@@ -822,6 +835,43 @@ class application_window:
             predictions = ["Code " + str(idx+1) for idx in reversed(top_2_idx)]
             return predictions,accuarcy,get_scores(top_2_val) """
 
+            def mydot(v1, v2):
+                return sum([x*y for x,y in zip(v1, v2)])
+
+            def matmulvec(M, v):
+                return [mydot(r,v) for r in M]
+
+            def matprod(x, y):
+                I = range(len(x))
+                J = range(len(y[0]))
+                K = range(len(x[0]))
+                matmul = []
+                for i in I:
+                    matmulprod = []
+                    for j in J:
+                        for k in K:
+                            matmulprod.append(sum(x[i][k]*y[k][j]))
+                    matmul.append(matmulprod)
+                return matmul  
+
+            def py_matmul(a, b):
+                ca = len(a)
+                ra = 1
+                rb, cb = b.shape
+                assert ca == rb, f"{ca} != {rb}"
+                
+                output = np.zeros(shape=(ra, cb))
+                for i in range(ra):
+                    for j in range(cb):
+                        for k in range(rb):
+                            output[i, j] += a[i, k] * b[k, j]
+                            
+                return output
+
+
+
+
+
             consumption_dict = {}
             consumption_dict['Finetuning Logic'] = "Not Consumed"
             consumption_dict['Qualifying criteria'] = "Not Used"
@@ -832,7 +882,7 @@ class application_window:
             f = open('Value-json/hyperparam.json') 
             hyperparam = json.load(f)
             st = standard_matrix.T
-            mat_dict = {}
+            mat_dict = []
             to_check_array = np.where(to_check_array == 0, hyperparam['alpha'], 1)
             with open("Input Sheets/mat_dict.txt",'r') as file:
                 line = file.read()
@@ -845,22 +895,29 @@ class application_window:
                 for number in inner_list:
                     if col_number == int(number):
                         for ind in range(len(st)):
-                            code_idx = "Code "+str(ind+1)
+                            code_idx = "C"+str(ind+1)
                             ajio = np.multiply(to_check_array,st[ind])
-                            tax_p = {}
+                            tax_p = []
                             for aj in range(len(ajio)):
-                                tax_p['Row Number = {}'.format(aj+4)] = ajio[aj]
+                                tax_p.append('{}(R{},{})'.format(ajio[aj],aj+1,code_idx))
                             
 
 
-                            mat_dict[code_idx] = tax_p 
+                            mat_dict.append(tax_p) 
+                            
             
-            mat_master_dict[col_number] = mat_dict
+            mat_master_dict[col_number] = np.array(mat_dict).T
             
                 
-            
-            
-            tat_val = np.dot(to_check_array.T,standard_matrix)
+            standard_matrix = standard_matrix
+            for inx in range(len(to_check_array)):
+                if to_check_array[inx] < 0:
+                    print(len(standard_matrix[inx]))
+                    
+                    for idx,val in enumerate(standard_matrix[inx]):
+                        if val < 0:
+                            standard_matrix[inx][idx] = 0
+            tat_val = to_check_array.T @ standard_matrix
             dicte,prediction_codes = get_age_decision(age,lent)
             qualify_dict = get_qualify(to_check_array,qualifying_dict,lent)
             col_number =col_number
@@ -1270,6 +1327,11 @@ class application_window:
                 mat_master_dict = {}
             
                 for idx,col in enumerate(col_name):
+                    """
+                    if col != 9011:
+                        pass
+                    else:
+                    """
                     age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict = execute(test_df,col,mat_master_dict)
                     consumption_metrics.append(consumption_metric)
                     prediction_metrics.append(prediction_metric)
@@ -1293,8 +1355,10 @@ class application_window:
 
                 with open("AI External-Outputs/matmul_{}.csv".format(t_filename),'w') as f:
                     w = csv.writer(f)
+                
                     w.writerow(mat_master_dict.keys())
-                    w.writerow(mat_master_dict.values())
+                    for val in mat_master_dict.values(): 
+                        w.writerows(val)
 
                 df.to_csv("AI External-Outputs/Consumption_metric_{}.csv".format(t_filename))
                 

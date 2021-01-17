@@ -1,2 +1,2 @@
-MW:/withSettlement_logicV3.0/desktopapp/Input Sheets/master_sheet v11 04 Jan 2021 Dev Copy (2).xlsx 
-TW:/withSettlement_logicV3.0/desktopapp/Input Sheets/atypical-test-sheet.xlsx 
+MD:/new_f/master_sheet v11 04 Jan 2021 Dev Copy.xlsx 
+TD:/new_f/v10 - dev_copy.xlsx 

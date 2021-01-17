@@ -1,9 +1,9 @@
 {
   "age_logic": "inactive",
-  "settlement_logic": "active",
-  "ethnicity_logic" : "active",
-  "qualifying_criteria" : "active",
-  "finetuning_logic" : "active",
+  "settlement_logic": "inactive",
+  "ethnicity_logic" : "inactive",
+  "qualifying_criteria" : "inactive",
+  "finetuning_logic" : "inactive",
   "layer_logic" : "inactive",
   "matmul_logic" : "active"
  }
