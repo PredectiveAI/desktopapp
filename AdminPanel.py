@@ -1380,10 +1380,15 @@ class application_window:
                 
                 t_filename = Path(test_filepath).stem
 
+                with open("Input Sheets/mat_dict.txt",'r') as file:
+                    line = file.read()
+                    inner_list = [elt.strip() for elt in line.split(',')]
+                inner_list = inner_list[:-1]
+
                 with open("AI External-Outputs/matmul_{}.csv".format(t_filename),'w') as f:
                     w = csv.writer(f)
                 
-                    w.writerow(mat_master_dict.keys())
+                    w.writerow(inner_list)
                     for val in mat_master_dict.values(): 
                         w.writerows(val)
 
