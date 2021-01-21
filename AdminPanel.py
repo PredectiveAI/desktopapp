@@ -899,7 +899,7 @@ class application_window:
                             ajio = np.multiply(to_check_array,st[ind])
                             tax_p = []
                             for aj in range(len(ajio)):
-                                tax_p.append('{}(R{},{})'.format(ajio[aj],aj+1,code_idx))
+                                tax_p.append('{}(F{},{})'.format(ajio[aj],aj+1,code_idx))
                             
 
 
@@ -1328,82 +1328,85 @@ class application_window:
             
                 for idx,col in enumerate(col_name):
 
-                    """
+        
                 
-                    if col != 9011:
+                    if col != 9011 or col!=9012:
                         pass
                     else:
-                    """
                 
-                    age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict = execute(test_df,col,mat_master_dict)
-                    consumption_metrics.append(consumption_metric)
-                    prediction_metrics.append(prediction_metric)
-                    prediction_output.append([col,code_values[idx], age,ethnicity, prediction,score_relat,score_std])
-                    if code_values[idx]!=code_values[idx]:
-                        code_values[idx] = "Not Provided"
-                    if col!=col:
-                        col = "Not Provided"
-                    if age!=age:
-                        age = "Not Provided"
+                    
+                        age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict = execute(test_df,col,mat_master_dict)
+                        consumption_metrics.append(consumption_metric)
+                        prediction_metrics.append(prediction_metric)
+                        prediction_output.append([col,code_values[idx], age,ethnicity, prediction,score_relat,score_std])
+                        if code_values[idx]!=code_values[idx]:
+                            code_values[idx] = "Not Provided"
+                        if col!=col:
+                            col = "Not Provided"
+                        if age!=age:
+                            age = "Not Provided"
 
-                    if ethnicity!=ethnicity:
-                        ethnicity = "Not Provided"
+                        if ethnicity!=ethnicity:
+                            ethnicity = "Not Provided"
 
 
 
+
+                            
+                        print("-----------------------------------------CASE NUMBER = {}------------------------------------------------------".format(col))
+                        print()
+
+                        print('For Case Number {} with Age {}yrs and Ethnicity {}, has an Actual Provided Code as {} However AI Top 5 Predcition Codes are {} with Relative Confidence Percentage as {}'.format(col,age,ethnicity,code_values[idx],prediction,score_relat))
+                        print()
+                        print("******************************************************************************************************************************************************************************************************************************************")
 
                         
-                    print("-----------------------------------------CASE NUMBER = {}------------------------------------------------------".format(col))
-                    print()
+                        
 
-                    print('For Case Number {} with Age {}yrs and Ethnicity {}, has an Actual Provided Code as {} However AI Top 5 Predcition Codes are {} with Relative Confidence Percentage as {}'.format(col,age,ethnicity,code_values[idx],prediction,score_relat))
-                    print()
-                    print("******************************************************************************************************************************************************************************************************************************************")
+                        cnt = cnt+1
+                        if code_values[idx] in [prediction[0],prediction[1]]:
+                        
+                            accuracy_2 = accuracy_2+1
+                        if code_values[idx] == prediction[0]:
 
+                            accuracy_1 = accuracy_1+1
                     
+                    df = pd.DataFrame(consumption_metrics, columns =['Column Reference Code','Logic Consumption Dictonary'])
+                    file = open("AI External-Outputs/path_info.txt","r")
+                    for lines in file.read().splitlines():
+                        if lines[0] == "T":
+                            test_filepath = lines[1:]
+                    file.close() 
                     
+                    t_filename = Path(test_filepath).stem
 
-                    cnt = cnt+1
-                    if code_values[idx] in [prediction[0],prediction[1]]:
+                    with open("Input Sheets/mat_dict.txt",'r') as file:
+                        line = file.read()
+                        inner_list = [elt.strip() for elt in line.split(',')]
+                    inner_list = inner_list[:-1]
+
+                    with open("AI External-Outputs/matmul_{}.csv".format(t_filename),'w') as f:
+                        w = csv.writer(f)
                     
-                        accuracy_2 = accuracy_2+1
-                    if code_values[idx] == prediction[0]:
+                        
+                        for key,val in mat_master_dict.items():
+                            w.writerow([key])
+                            w.writerows(val)
 
-                        accuracy_1 = accuracy_1+1
+                    df.to_csv("AI External-Outputs/Consumption_metric_{}.csv".format(t_filename))
+                    
+                    df = pd.DataFrame(prediction_metrics, columns =['Column Reference Code','Intial Score','Intial Prediction','Settlement Logic','Settlement Prediction','Ethnicity Logic','Ethnicity Prediction','Fine Tuning Logic','FineTuning Prediction','Final Logic','Final Prediction'])  
+                    
+                    df.to_csv("AI External-Outputs/Prediction_metric_{}.csv".format(t_filename))
+                    df = pd.DataFrame(prediction_output, columns =['Column Reference Code','Actual Code','Age','Ethnicity','Predcition Codes','Relative Confidence Percentage','Standard Confidence Percentage'])  
+                    df.to_csv("AI External-Outputs/Prediction_output_{}.csv".format(t_filename))
+                    #print("Accurate is ",accuracy)
+                    if cnt==0:
+                        cnt= 1
+                    
                 
-                df = pd.DataFrame(consumption_metrics, columns =['Column Reference Code','Logic Consumption Dictonary'])
-                file = open("AI External-Outputs/path_info.txt","r")
-                for lines in file.read().splitlines():
-                    if lines[0] == "T":
-                        test_filepath = lines[1:]
-                file.close() 
-                
-                t_filename = Path(test_filepath).stem
-
-                with open("Input Sheets/mat_dict.txt",'r') as file:
-                    line = file.read()
-                    inner_list = [elt.strip() for elt in line.split(',')]
-                inner_list = inner_list[:-1]
-
-                with open("AI External-Outputs/matmul_{}.csv".format(t_filename),'w') as f:
-                    w = csv.writer(f)
-                
-                    w.writerow(inner_list)
-                    for val in mat_master_dict.values(): 
-                        w.writerows(val)
-
-                df.to_csv("AI External-Outputs/Consumption_metric_{}.csv".format(t_filename))
-                
-                df = pd.DataFrame(prediction_metrics, columns =['Column Reference Code','Intial Score','Intial Prediction','Settlement Logic','Settlement Prediction','Ethnicity Logic','Ethnicity Prediction','Fine Tuning Logic','FineTuning Prediction','Final Logic','Final Prediction'])  
-                
-                df.to_csv("AI External-Outputs/Prediction_metric_{}.csv".format(t_filename))
-                df = pd.DataFrame(prediction_output, columns =['Column Reference Code','Actual Code','Age','Ethnicity','Predcition Codes','Relative Confidence Percentage','Standard Confidence Percentage'])  
-                df.to_csv("AI External-Outputs/Prediction_output_{}.csv".format(t_filename))
-                #print("Accurate is ",accuracy)
-                self.cnt = cnt
-            
-                self.accuracy_2 = (accuracy_2/cnt)*100
-                self.accuracy_1 = (accuracy_1/cnt)*100
+                    self.accuracy_2 = (accuracy_2/cnt)*100
+                    self.accuracy_1 = (accuracy_1/cnt)*100
 
         execute_single_files()
 
