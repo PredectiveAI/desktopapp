@@ -359,7 +359,7 @@ class application_window:
                 if cell!=cell:
                     return hyperparam['empty']
 
-                if '#' in str(cell.value) and '(' in str(cell.value):
+                elif '#' in str(cell.value) and '(' in str(cell.value):
                     check = cell.value
                     check = check[:-1]
                     cert = check.split('(')
@@ -458,14 +458,14 @@ class application_window:
                                 return float(cer[1])
 
                     else:
-                        return 100
+                        return 0.00000001
 
             
             
             def only_cells_with_red_text_emp(cell):
                 if cell!=cell:
                     return 0
-                if '(' in str(cell.value):
+                elif '(' in str(cell.value):
 
                     if cell.style.bg_color in {utils.colors.red, 'FFFF0000'}:
                         return 150
@@ -546,7 +546,7 @@ class application_window:
                         elif cer[0] == 'V':
                             return float(cer[1])
                 else:
-                    return 100
+                    return 0.0000001
             
             
             sf_2 = StyleFrame(sf.applymap(only_cells_with_red_text))
@@ -814,7 +814,7 @@ class application_window:
             df_check = df_check.fillna(0)
             to_check_array = df_check[col_number].values
             return to_check_array,age,ethnicity
-        def get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number,lent,mat_master_dict):
+        def get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number,lent,mat_master_dict,to_check_dict):
             
             """ dicte,prediction_codes = get_age_decision(age)
             to_check_array_match = np.where(to_check_array == 0, 0, 1)
@@ -883,7 +883,16 @@ class application_window:
             hyperparam = json.load(f)
             st = standard_matrix.T
             mat_dict = []
+            
             to_check_array = np.where(to_check_array == 0, hyperparam['alpha'], 1)
+            rnums = []
+            for inx,num in enumerate(to_check_array):
+                rnum = "(R{},{})".format(inx+6,num)
+                rnums.append(rnum)
+
+                
+            to_check_dict[col_number] = rnums
+
             with open("Input Sheets/mat_dict.txt",'r') as file:
                 line = file.read()
                 inner_list = [elt.strip() for elt in line.split(',')]
@@ -899,7 +908,7 @@ class application_window:
                             ajio = np.multiply(to_check_array,st[ind])
                             tax_p = []
                             for aj in range(len(ajio)):
-                                tax_p.append('{}(F{},{})'.format(ajio[aj],aj+1,code_idx))
+                                tax_p.append('{}(R{},{})'.format(ajio[aj],aj+6,code_idx))
                             
 
 
@@ -917,7 +926,7 @@ class application_window:
                     for idx,val in enumerate(standard_matrix[inx]):
                         if val < 0:
                             standard_matrix[inx][idx] = 0
-            tat_val = to_check_array.T @ standard_matrix
+            tat_val = np.dot(to_check_array.T,standard_matrix)
             dicte,prediction_codes = get_age_decision(age,lent)
             qualify_dict = get_qualify(to_check_array,qualifying_dict,lent)
             col_number =col_number
@@ -1244,7 +1253,7 @@ class application_window:
             #predictions = ["Code " + str(idx+1) for idx in reversed(top_2_idx)]
 
             score_relat,score_std = get_percentile(top_2_val,sum_std_mat,top_2_idx,to_check_array)
-            return predictions,score_relat,score_std,prediction_metric,consumption_metric,mat_master_dict
+            return predictions,score_relat,score_std,prediction_metric,consumption_metric,mat_master_dict,to_check_dict
             
 
 
@@ -1272,14 +1281,14 @@ class application_window:
             
 
 
-        def execute(df,col_number,mat_master_dict):
+        def execute(df,col_number,mat_master_dict,to_check_dict):
 
             
             sf = read_master_sheet(self.master_sheet_filepath)
             save_master_log(self.master_sheet_filepath)
             standard_matrix,qualifying_dict,sum_std_mat,lent = get_standard_matrix(sf)
             to_check_array,age,ethnicity = get_test_output(df,col_number)
-            predictions,score_relat,score_std,prediction_metric,consumption_metric,mat_master_dict = get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number,lent,mat_master_dict)
+            predictions,score_relat,score_std,prediction_metric,consumption_metric,mat_master_dict,to_check_dict = get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number,lent,mat_master_dict,to_check_dict)
   
             
             #print("Age of the user is = ",age)
@@ -1287,7 +1296,7 @@ class application_window:
             #print(predictions)
             #print("With Cumilitave scores of :")
             #print(scores)
-            return age,predictions,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict,lent
+            return age,predictions,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict,lent,to_check_dict
 
 
         def execute_single_files():
@@ -1325,13 +1334,17 @@ class application_window:
                 prediction_metrics = []
                 consumption_metrics = []
                 mat_master_dict = {}
+                to_check_dict = {}
             
                 for idx,col in enumerate(col_name):
 
 
+
+
+
                 
                 
-                    age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict,lent = execute(test_df,col,mat_master_dict)
+                    age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict,lent,to_check_dict = execute(test_df,col,mat_master_dict,to_check_dict)
                     consumption_metrics.append(consumption_metric)
                     prediction_metrics.append(prediction_metric)
                     prediction_output.append([col,code_values[idx], age,ethnicity, prediction,score_relat,score_std])
@@ -1356,8 +1369,8 @@ class application_window:
                     print()
                     print("******************************************************************************************************************************************************************************************************************************************")
 
-                    
-                    
+                
+                
 
                     self.cnt = self.cnt+1
                     if code_values[idx] in [prediction[0],prediction[1]]:
@@ -1394,6 +1407,16 @@ class application_window:
                         for key,val in mat_master_dict.items():
                             w.writerow([key])
                             w.writerows(val)
+
+                    with open("AI External-Outputs/attempt_sheet_{}.csv".format(t_filename),'w') as f:
+                        w = csv.writer(f)
+
+     
+                    
+                        
+                        for key,val in to_check_dict.items():
+                            w.writerow([key])
+                            w.writerows([val])
 
                     df.to_csv("AI External-Outputs/Consumption_metric_{}.csv".format(t_filename))
                     
