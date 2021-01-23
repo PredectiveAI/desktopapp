@@ -887,7 +887,7 @@ class application_window:
             to_check_array = np.where(to_check_array == 0, hyperparam['alpha'], 1)
             rnums = []
             for inx,num in enumerate(to_check_array):
-                rnum = "(R{},{})".format(inx+6,num)
+                rnum = "(R{},{})".format(inx+5,num)
                 rnums.append(rnum)
 
                 
@@ -908,7 +908,7 @@ class application_window:
                             ajio = np.multiply(to_check_array,st[ind])
                             tax_p = []
                             for aj in range(len(ajio)):
-                                tax_p.append('{}(R{},{})'.format(ajio[aj],aj+6,code_idx))
+                                tax_p.append('{}(R{},{})'.format(ajio[aj],aj+5,code_idx))
                             
 
 
@@ -1338,12 +1338,13 @@ class application_window:
             
                 for idx,col in enumerate(col_name):
 
+                
 
 
 
 
                 
-                
+                    
                     age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict,lent,to_check_dict = execute(test_df,col,mat_master_dict,to_check_dict)
                     consumption_metrics.append(consumption_metric)
                     prediction_metrics.append(prediction_metric)
