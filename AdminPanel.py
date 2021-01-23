@@ -1287,7 +1287,7 @@ class application_window:
             #print(predictions)
             #print("With Cumilitave scores of :")
             #print(scores)
-            return age,predictions,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict
+            return age,predictions,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict,lent
 
 
         def execute_single_files():
@@ -1331,7 +1331,7 @@ class application_window:
 
                 
                 
-                    age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict = execute(test_df,col,mat_master_dict)
+                    age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict,lent = execute(test_df,col,mat_master_dict)
                     consumption_metrics.append(consumption_metric)
                     prediction_metrics.append(prediction_metric)
                     prediction_output.append([col,code_values[idx], age,ethnicity, prediction,score_relat,score_std])
@@ -1383,6 +1383,12 @@ class application_window:
 
                     with open("AI External-Outputs/matmul_{}.csv".format(t_filename),'w') as f:
                         w = csv.writer(f)
+                        code_dict = []
+
+                        for i in range(1,lent):
+                            code_dict.append("Code "+str(i))
+                        
+                        w.writerow(code_dict)
                     
                         
                         for key,val in mat_master_dict.items():
