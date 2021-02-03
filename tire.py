@@ -319,7 +319,7 @@ class GeneticRisk():
                 press(ARROW_LEFT)
                 press(TAB)
                 press(ARROW_LEFT)
-            elif user_dict['hrt_status'] == 'Current':
+            elif user_dict['hrt_status'] == 'Current User':
                 #print("in the current")
                 press(TAB)
                 write(user_dict['hrt_cur_len'])
@@ -332,7 +332,7 @@ class GeneticRisk():
                 press(ENTER)
                 press(TAB)
  
-                if user_dict['hrt_cur_type'] == 'combined':
+                if user_dict['hrt_cur_type'] == 'Combined':
                     press(TAB)
                     press(ARROW_LEFT)
                 else:
@@ -345,7 +345,7 @@ class GeneticRisk():
 
 
 
-            elif user_dict['hrt_status'] == 'Less than 5 years':
+            elif user_dict['hrt_status'] == 'Less than 5 years ago':
                 press(ARROW_LEFT)
                 press(ARROW_LEFT)
                 press(TAB)
@@ -355,14 +355,14 @@ class GeneticRisk():
                 write(user_dict['hrt_past_len'])
                 press(ENTER)
                 press(TAB)
-                if user_dict['hrt_past_type'] == 'combined':
+                if user_dict['hrt_past_type'] == 'Combined':
                     press(TAB)
                     press(ARROW_LEFT)
                 else:
                     press(ARROW_UP)
                     press(TAB)
                     press(ARROW_LEFT)
-            elif user_dict['hrt_status'] == 'More than 5 years':
+            elif user_dict['hrt_status'] == '5+ years ago':
                 press(ARROW_LEFT)
                 press(ARROW_LEFT)
                 press(ARROW_LEFT)
@@ -420,7 +420,7 @@ class GeneticRisk():
             
 
         if user_dict.get('biopsy') is not None:
-            if user_dict['biopsy']=='No prior biopsy':
+            if user_dict['biopsy']=='No prior biopsy / No proliferative disease':
                 press(TAB)
                 press(TAB)
                 press(TAB)
@@ -431,7 +431,7 @@ class GeneticRisk():
                 press(TAB)
                 press(TAB)
                 press(ARROW_LEFT)
-            elif user_dict['biopsy']=='Hyperplasia(not atypia)':
+            elif user_dict['biopsy']=='Hyperplasia (not atypia)':
                 press(ARROW_RIGHT)
                 press(ARROW_RIGHT)
                 press(TAB)
@@ -472,7 +472,7 @@ class GeneticRisk():
 
 
         if user_dict.get('oc') is not None:
-            if user_dict['oc'] == 'I dont know':
+            if user_dict['oc'] == "I don't know":
                 press(TAB)
                 
             elif user_dict['oc'] == 'No':
@@ -503,7 +503,7 @@ class GeneticRisk():
         
 
         if user_dict.get('md') is not None:
-            if user_dict['md'] == 'FATTY':
+            if user_dict['md'] == 'Almost entirely fatty':
                                 
                 press(TAB)
                 press(ENTER)
@@ -513,7 +513,7 @@ class GeneticRisk():
                 press(ARROW_UP)
                 press(TAB)
                 press(ARROW_LEFT)
-            elif user_dict['md'] == 'SCATTERED':
+            elif user_dict['md'] == 'Scattered fibroglandular density':
                 press(TAB)
                 press(ENTER)
                 press(ARROW_UP)
@@ -521,7 +521,7 @@ class GeneticRisk():
                 press(ARROW_UP)
                 press(TAB)
                 press(ARROW_LEFT)
-            elif user_dict['md'] == 'HETROGENOUS DENSE':
+            elif user_dict['md'] == 'Heterogenously dense':
                 press(TAB)
                 press(ENTER)
                 press(ARROW_UP)
@@ -529,14 +529,14 @@ class GeneticRisk():
 
                 press(TAB)
                 press(ARROW_LEFT)
-            elif user_dict['md'] == 'EXTREMELY DENSE':
+            elif user_dict['md'] == 'Extremely dense':
                 press(TAB)
                 press(ENTER)
                 press(ARROW_UP)
 
                 press(TAB)
                 press(ARROW_LEFT)
-            elif user_dict['md'] == 'I dont know':
+            elif user_dict['md'] == "I don't know":
                 press(TAB)
                 press(ENTER)
 
