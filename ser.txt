@@ -28,7 +28,7 @@
 						else { window.addEventListener('load', async_load, false); }
 		})();
 	</script>
-<script type="text/javascript" src="https://pi.pardot.com/analytics?ver=3&amp;visitor_id=&amp;visitor_id_sign=&amp;pi_opt_in=&amp;campaign_id=54036&amp;account_id=860853&amp;title=Tyrer-Cuzick%20Risk%20Calculator%20for%20Breast%20Cancer%20Risk%20Assessment&amp;url=https%3A%2F%2Fibis-risk-calculator.magview.com%2F&amp;referrer="></script><script type="text/javascript" src="https://info.magview.com/analytics?conly=true&amp;visitor_id=72540173&amp;visitor_id_sign=d2c690d2a9a4a62ef3368178351d1b5c3d92fe3fb963885c2c85ad6546b5084b60ba4d56805d1e8202c86f10db2be310fb88daa3&amp;pi_opt_in=&amp;campaign_id=54036&amp;account_id=860853&amp;title=Tyrer-Cuzick Risk Calculator for Breast Cancer Risk Assessment&amp;url=https://ibis-risk-calculator.magview.com/&amp;referrer="></script></head>
+<script type="text/javascript" src="https://pi.pardot.com/analytics?ver=3&amp;visitor_id=&amp;visitor_id_sign=&amp;pi_opt_in=&amp;campaign_id=54036&amp;account_id=860853&amp;title=Tyrer-Cuzick%20Risk%20Calculator%20for%20Breast%20Cancer%20Risk%20Assessment&amp;url=https%3A%2F%2Fibis-risk-calculator.magview.com%2F&amp;referrer="></script><script type="text/javascript" src="https://info.magview.com/analytics?conly=true&amp;visitor_id=72595633&amp;visitor_id_sign=668e6cbbba70fa9ad7444719b63e8631521f654dad50afa235ef83d95002f2ec3127385ccbc4eaac913b99e7ea3458afa0c9ace1&amp;pi_opt_in=&amp;campaign_id=54036&amp;account_id=860853&amp;title=Tyrer-Cuzick Risk Calculator for Breast Cancer Risk Assessment&amp;url=https://ibis-risk-calculator.magview.com/&amp;referrer="></script></head>
 <body>
 	<div id="myDIV"></div>
 	<!-- Header Start -->
@@ -2012,38 +2012,38 @@
 								
 								<div class="panel panel-primary">
 									<div class="panel-heading newpanel-heading"><h2>IBIS Breast Cancer Risk Assessment Score</h2></div>
-									<div class="panel-heading newpanel-heading-two"><h4>Patient Id : <span id="res_patient_id">Patient1612344984</span></h4></div>
+									<div class="panel-heading newpanel-heading-two"><h4>Patient Id : <span id="res_patient_id">Patient1612360173</span></h4></div>
 									<div class="panel-body text-center risk-content new-risk-content">
 										
 										<div class="perall">
 											<div class="prbx"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
 												<h2>Personal <span>10-Year Risk</span></h2>
 												<canvas id="personal10yr_chart" width="118" height="118" style="display: block; width: 118px; height: 118px;"></canvas>
-												<h4 id="res_personal_10y_risk">0.10 % </h4>												
+												<h4 id="res_personal_10y_risk">0.70 % </h4>												
 											</div>
 											<div class="prbx"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
 												<h2>Population  <span>10-Year Risk</span></h2>
 												<canvas id="population10yr_chart" width="117" height="117" style="display: block; width: 117px; height: 117px;"></canvas>
-												<h4 id="res_population_10y_risk">0.10 % </h4>
+												<h4 id="res_population_10y_risk">1.60 % </h4>
 											</div>
 											<div class="prbx"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
 												<h2>Personal <span>Lifetime Risk</span></h2>
 												<canvas id="personallt_chart" width="118" height="118" style="display: block; width: 118px; height: 118px;"></canvas>
-												<h4 id="res_personal_lt_risk">16.00 % </h4>
+												<h4 id="res_personal_lt_risk">5.00 % </h4>
 											</div>
 											<div class="prbx"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
 												<h2>Population <span>Lifetime Risk</span></h2>
 												<canvas id="populationlr_chart" width="117" height="117" style="display: block; width: 117px; height: 117px;"></canvas>
-												<h4 id="res_population_lt_risk">11.20 % </h4>
+												<h4 id="res_population_lt_risk">10.80 % </h4>
 											</div>
 										</div>
 										<div class="textbox">
-											<p>Based on the information provided, the patient’s estimated risk for developing invasive breast cancer over the next 10 years is <span id="text_personal_10y_risk">0.1%</span>. The U.S. population’s average 10-year risk is <span id="text_population_10y_risk">0.1%</span> for women of the same age and race/ethnicity. Based on the information provided, the patient’s estimated risk for developing invasive breast cancer in her lifetime <span id="text_personal_lt_risk">16.0%</span>. The U.S. population’s average lifetime risk is <span id="text_population_lt_risk">11.2%</span> for women of the same age and race/ethnicity.</p>
+											<p>Based on the information provided, the patient’s estimated risk for developing invasive breast cancer over the next 10 years is <span id="text_personal_10y_risk">0.7%</span>. The U.S. population’s average 10-year risk is <span id="text_population_10y_risk">1.6%</span> for women of the same age and race/ethnicity. Based on the information provided, the patient’s estimated risk for developing invasive breast cancer in her lifetime <span id="text_personal_lt_risk">5.0%</span>. The U.S. population’s average lifetime risk is <span id="text_population_lt_risk">10.8%</span> for women of the same age and race/ethnicity.</p>
 										</div>
 										
 										<div class="text-center mtpagn" id="action_btns">
 											<!--<a href="javascript:void(0)" class="download" onclick="window.print();" >Download Results</a>-->
-											<a href="javascript:void(0)" class="download" id="down_result_link" onclick="saveResultPDF('Patient1612344984')">Generate PDF</a>
+											<a href="javascript:void(0)" class="download" id="down_result_link" onclick="saveResultPDF('Patient1612360173')">Generate PDF</a>
 											<a href="javascript:void(0)" class="download next_btn_5">FAQ</a>											
 										</div>
 									</div>

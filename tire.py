@@ -26,7 +26,7 @@ class GeneticRisk():
         for self.case_iter,self.case_num in enumerate(cases):
             #print(user_dict.keys())
             if self.case_num == case_num:
-                #print(user_dict[self.case_num])
+                print(user_dict[self.case_num])
                 return self.calculate(user_dict[self.case_num])
     
 
@@ -205,7 +205,8 @@ class GeneticRisk():
 
 
         options = Options()
-        options.binary_location = r"D:\chromium-87-0-4246\chrome-win\chrome.exe"
+        options.binary_location = r"C:\Users\amisr\Downloads\03-01-2021\Genetic_automation\chromium-87-0-4246\chrome-win\chrome.exe"
+        #options.binary_location = r"D:\chromium-87-0-4246\chrome-win\chrome.exe"
         options.add_argument("--disable-infobars")
         options.add_argument("start-maximized")
         options.add_argument("--disable-extensions")
