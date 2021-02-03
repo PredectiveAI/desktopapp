@@ -360,6 +360,7 @@ class application_window():
         return recom,cum_score,score,mul
 
 
+
     def save_recommendation_log(self,case_num,cum_score,score,mul):
         if not os.path.exists('AI External-Outputs/recommendation_log.csv'):
             pass

@@ -1,4 +1,4 @@
-#import modules
+ #import modules
  
 from os import curdir
 from tkinter import *
@@ -19,6 +19,45 @@ from tkinter import ttk
 import threading
 import json
 from pathlib import Path
+
+from storykey import storykey
+from tire import GeneticRisk
+from multiprocessing import Process
+
+
+class ProcessParallel(object):
+    """
+    To Process the  functions parallely
+
+    """    
+    def __init__(self, *jobs):
+        """
+        """
+        self.jobs = jobs
+        self.processes = []
+
+    def fork_processes(self):
+        """
+        Creates the process objects for given function deligates
+        """
+        for job in self.jobs:
+            proc  = Process(target=job)
+            self.processes.append(proc)
+
+    def start_all(self):
+        """
+        Starts the functions process all together.
+        """
+        for proc in self.processes:
+            proc.start()
+
+    def join_all(self):
+        """
+        Waits untill all the functions executed.
+        """
+        for proc in self.processes:
+            proc.join()
+
 try:
     sys.stdout.write("\n")
     sys.stdout.flush()
@@ -622,6 +661,9 @@ class application_window:
             standard_matrix = df.values
 
 
+            print(standard_matrix)
+
+
             
             
             #print(standard_matrix)
@@ -807,13 +849,29 @@ class application_window:
         def get_test_output(df, col_number):
             #df = read_data(filepath)
 
-            df_check = df.iloc[4:]
-            age = df[col_number].iloc[3]
-            ethnicity = df[col_number].iloc[2]
+            chl = 0
+            chlt = 0
+            for inx,rows in df.iterrows():
+                if rows['Sub-Feature'] == "external factor":
+                    chl = inx
+            for inx,rows in df.iterrows():
+                if rows['Sub-Feature'] == "DropDowns":
+                    chlt = inx
+      
+
+            df_check = df.iloc[chl+1:chlt-7]
+            df = df[[col_number]]
+            ethinicity = df.iloc[4:5].values[0]
+            age = df.iloc[5:6].values[0]
+            age = age[0]
+            ethinicity = str(ethinicity[0])
+        
 
             df_check = df_check.fillna(0)
+            #print(df_check)
             to_check_array = df_check[col_number].values
-            return to_check_array,age,ethnicity
+            #print(to_check_array)
+            return to_check_array,age,ethinicity
         def get_top_5_predictions(to_check_array,age,standard_matrix,qualifying_dict,sum_std_mat,ethnicity,col_number,lent,mat_master_dict,to_check_dict):
             
             """ dicte,prediction_codes = get_age_decision(age)
@@ -926,8 +984,9 @@ class application_window:
                     for idx,val in enumerate(standard_matrix[inx]):
                         if val < 0:
                             standard_matrix[inx][idx] = 0
+            #print(standard_matrix)
             tat_val = np.dot(to_check_array.T,standard_matrix)
-            dicte,prediction_codes = get_age_decision(age,lent)
+            #dicte,prediction_codes = get_age_decision(age,lent)
             qualify_dict = get_qualify(to_check_array,qualifying_dict,lent)
             col_number =col_number
             intial_logic = {}
@@ -1277,8 +1336,101 @@ class application_window:
             #weightage.append(scores)
             np.savetxt('AI Internal-Outputs/master_log_weightage.txt', weightage)
             np.savetxt('AI Internal-Outputs/master_log_score.txt',scores)
+        def get_recommendation(df_attempt):
+            b = np.loadtxt('AI Internal-Outputs/master_log_weightage.txt')
+            c = np.loadtxt('AI Internal-Outputs/master_log_score.txt')
+
+            scores = (np.multiply(c,df_attempt)).flatten()
+            sc_a = 0
+            sc_b = 0
+            for sc in scores:
+                if sc==-1:
+                    sc_b+=1
+                elif sc == 1:
+                    sc_a+=1
+                else :
+                    pass
+            if sc_b == 0:
+                if sc_a ==0:
+                    score = "No Score Defined"
+                else:
+                    score = 'A'
+            else:
+                score = 'B'
+
+            self.weightage = b
+
+        
+            mul = (np.multiply(self.weightage,df_attempt)).flatten()
+
+            #mul = [(i+5)/2 for i in mul if i != 0]
+        
+        
+                
+            cum_score = np.sum(mul)
+            #print(cum_score)
+    
+            #print(cum_score)
+            if cum_score < 0 :
+                cum_score = 0
+            elif cum_score > 5:
+                cum_score = 5
+
+            elif 0<=cum_score<=1:
+                cum_score = 0
+            elif 1<cum_score<=2:
+                cum_score = 1
+            elif 2<cum_score<=3:
+                cum_score = 2
+            elif 3<cum_score<=4:
+                cum_score = 3
+            elif 4<cum_score<5:
+                cum_score = 4
+            else:
+                cum_score = 5
+            
+
+
+
             
             
+            filepath = curdir + "/Input Sheets/recommendation_sheet.csv"
+            df = pd.read_csv(filepath)
+            #df_k = df.fillna(" ")
+            x = df.iloc[1:,1:].values
+            x = x.flatten()
+
+            self.recom_tot_val = []
+            for value in x:
+                if value!=value:
+                    pass
+                else:
+                    #print(value)
+                    self.recom_tot_val.append(value)  
+
+            score_a = df.iloc[6,:]
+            score_b = df.iloc[7,:]
+
+            for idx,row in df.iterrows():
+                if idx == int(cum_score):
+                    
+                    recom = [row['Intepretation-1']] 
+                    if score=="No Score Defined":
+                        recom.append(row['Intepretation-2'])
+                        recom.append(row['Intepretation-3'])
+                    else :
+                        if score=='A':
+                            recom.append(score_a['Intepretation-2'])
+                            recom.append(score_a['Intepretation-3'])
+
+                        else:
+                            recom.append(score_b['Intepretation-2'])
+                            recom.append(score_b['Intepretation-3'])   
+
+                        
+            
+            return recom,cum_score,score,mul
+                
 
 
         def execute(df,col_number,mat_master_dict,to_check_dict):
@@ -1317,11 +1469,13 @@ class application_window:
                 file1.close() 
             
                 test_df = read_data(self.test_sheet_filepath)
-                col_name = test_df.columns
+                col_name = test_df.iloc[:4:].columns
                 col_name = col_name
+        
                 test_df = read_data(self.test_sheet_filepath)
                 test_df = df_column_uniquify(test_df)
-                temp_df = test_df.iloc[:,3:]
+                temp_df = test_df.iloc[:,4:]
+
                 col_name = temp_df.columns
                 code_values = temp_df.iloc[0].values
                 prediction_output = []
@@ -1335,20 +1489,41 @@ class application_window:
                 consumption_metrics = []
                 mat_master_dict = {}
                 to_check_dict = {}
-            
+                file = open("AI External-Outputs/path_info.txt","r")
+                for lines in file.read().splitlines():
+                    if lines[0] == "T":
+                        test_filepath = lines[1:]
+                file.close() 
+                
+                t_filename = Path(test_filepath).stem
+                cols_names = ['Column Reference Code','Actual Code','Age','Ethnicity','Predcition Codes','Relative Confidence Percentage','Standard Confidence Percentage','Story','Recommendations','5 yr Risk','10 yr Risk','Lifetime Risk']
+                df = pd.DataFrame(columns =cols_names)
+                df.to_csv("AI External-Outputs/Prediction_output_{}.csv".format(t_filename),index=False)
                 for idx,col in enumerate(col_name):
 
                 
+ 
 
-
-
+                    
 
                 
+
+
+
+
                     
+                    
+
+                    
+
+    
                     age,prediction,score_relat,score_std,ethnicity,prediction_metric,consumption_metric,mat_master_dict,lent,to_check_dict = execute(test_df,col,mat_master_dict,to_check_dict)
+            
+    
+            
                     consumption_metrics.append(consumption_metric)
                     prediction_metrics.append(prediction_metric)
-                    prediction_output.append([col,code_values[idx], age,ethnicity, prediction,score_relat,score_std])
+                    prediction_output = [col,code_values[idx], age,ethnicity, prediction,score_relat,score_std,'story','Recommendations','5 yr risk','10 yr risk','lifetime risk']
                     if code_values[idx]!=code_values[idx]:
                         code_values[idx] = "Not Provided"
                     if col!=col:
@@ -1424,8 +1599,39 @@ class application_window:
                     df = pd.DataFrame(prediction_metrics, columns =['Column Reference Code','Intial Score','Intial Prediction','Settlement Logic','Settlement Prediction','Ethnicity Logic','Ethnicity Prediction','Fine Tuning Logic','FineTuning Prediction','Final Logic','Final Prediction'])  
                     
                     df.to_csv("AI External-Outputs/Prediction_metric_{}.csv".format(t_filename))
-                    df = pd.DataFrame(prediction_output, columns =['Column Reference Code','Actual Code','Age','Ethnicity','Predcition Codes','Relative Confidence Percentage','Standard Confidence Percentage'])  
-                    df.to_csv("AI External-Outputs/Prediction_output_{}.csv".format(t_filename))
+
+                    file = open("AI External-Outputs/path_info.txt","r")
+                    for lines in file.read().splitlines():
+                        if lines[0] == "T":
+                            test_filepath = lines[1:]
+                    file.close() 
+                    total_df= pd.read_excel(test_filepath)
+                    chl = 0
+                    chlt = 0
+                    for inxt,rows in total_df.iterrows():
+                        if rows['Sub-Feature'] == "external factor":
+                            chl = inxt
+                    
+                    for inxt,rows in total_df.iterrows():
+                        if rows['Sub-Feature'] == "endFeatures":
+                            chlt = inxt
+                 
+                    df_ops = total_df[[col]]
+                    df_ops = df_ops.fillna(0)
+                    df_process = total_df.fillna(method='ffill')
+                    df_attempt = df_ops.where(df_ops == 0, 1)
+  
+                    df_attempt = (df_attempt.iloc[chl:chlt-1,:]).values
+                    df_attempt = df_attempt.flatten()
+                    recommendation,cum_score,score,mul = get_recommendation(df_attempt)
+                    df = pd.read_csv("AI External-Outputs/Prediction_output_{}.csv".format(t_filename))
+                    dicte= {}
+                    for inx,items in enumerate(prediction_output):
+                        dicte[cols_names[inx]] = items
+                    dicte['Recommendations'] = recommendation
+                    df = df.append(dicte,ignore_index=True)
+                    df.to_csv("AI External-Outputs/Prediction_output_{}.csv".format(t_filename),index=False)
+      
                     #print("Accurate is ",accuracy)
                     if self.cnt==0:
                         self.cnt= 1
@@ -1433,11 +1639,24 @@ class application_window:
                 
                     self.accuracy_2 = (accuracy_2/self.cnt)*100
                     self.accuracy_1 = (accuracy_1/self.cnt)*100
+                    gr = GeneticRisk()
+                    sk = storykey()
+                    a = threading.Thread(target = gr.execute(self.test_sheet_filepath,col))
+                    a.start()
+                    a.join()
 
-        execute_single_files()
+
+
+                    sk.execute(self.test_sheet_filepath,col,idx)
+
+        execute_single_files() 
 
     def exit_the_window():
         self.user_root.destroy()
+
+
+
+
 
 
 
